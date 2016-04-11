@@ -1,0 +1,139 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AI Designer HighFashion </title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styling plus plugins -->
+  <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  <link href="{% static 'css/icheck/flat/green.css' %}" rel="stylesheet">
+
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+
+  <!--[if lt IE 9]>
+        <script src="../assets/js/ie8-responsive-file-warning.js' %}"></script>
+        <![endif]-->
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js' %}"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js' %}"></script>
+        <![endif]-->
+
+</head>
+
+
+<body class="nav-md">
+
+  <div class="container body">
+
+    <div class="main_container">
+
+	  <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="index.html" class="site_title"><i class="fa fa-black-tie"></i> <span>HighFashion</span></a>
+          </div>
+          <div class="clearfix"></div>
+
+
+          <!-- menu prile quick info -->
+          <div class="profile">
+            <div class="profile_pic">
+              <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
+            </div>
+            <div class="profile_info">
+              <span>Welcome,</span>
+              <h2>Admin</h2>
+            </div>
+          </div>
+          <!-- /menu prile quick info -->
+
+          <br />
+
+          <!-- sidebar menu -->
+		  {% include "sidebar.html" %}
+          <!-- /sidebar menu -->
+
+          <!-- /menu footer buttons -->
+          {% include "side_footer.html" %}
+          <!-- /menu footer buttons -->
+        </div>
+      </div>
+
+      <!-- top navigation -->
+	  <!-- /top navigation -->
+
+      <!-- page content -->
+      <div class="right_col" role="main">
+        <div class="">
+
+          <div class="page-title">
+            <div class="title_left">
+              <h3>
+                <small>
+                </small>
+              </h3>
+            </div>
+		  </div>
+
+          <div class="clearfix"></div>
+
+        <!-- footer content -->
+		{% include "footer.html" %}
+        <!-- /footer content -->
+
+      </div>
+      <!-- /page content -->
+    </div>
+
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+  <!-- bootstrap progress js -->
+  <script src="{% static 'js/progressbar/bootstrap-progressbar.min.js' %}"></script>
+  <script src="{% static 'js/nicescroll/jquery.nicescroll.min.js' %}"></script>
+  <!-- icheck -->
+  <script src="{% static 'js/icheck/icheck.min.js' %}"></script>
+
+  <script src="{% static 'js/custom.js' %}"></script>
+
+  <!-- pace -->
+  <script src="{% static 'js/pace/pace.min.js' %}"></script>
+
+  <!-- chartJS -->
+  <script src="{% static 'js/chartjs/chart.min.js' %}"></script>
+
+  <!-- Custom --> 
+  <script src="{% static 'js/tb/server.js' %}"></script>
+  <script src="{% static 'js/tb/callback.js' %}"></script>
+  <script src="{% static 'js/tb/main.js' %}"></script>
+
+</body>
+
+</html>

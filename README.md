@@ -8,5 +8,5 @@
 
 ## Front-end
 
-- Base Template : [Spectral | HTML5 UP](http://html5up.net/spectral)
+- Base Template : [Spectral | HTML5 UP](http://html5up.net/spectral), [Gentelella](https://github.com/puikinsh/gentelella)
 - Single-page Application

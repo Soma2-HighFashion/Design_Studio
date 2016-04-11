@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
-from home.views import index
+from home.views import index, design
 	 
 router = routers.DefaultRouter()
 
@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 	url(r'^api/', include(router.urls)),
 	url(r'^$', index, name='index'),
+	url(r'^design$', design, name='design'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
 ]
 
