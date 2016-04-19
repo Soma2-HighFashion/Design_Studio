@@ -49,7 +49,7 @@
         <div class="left_col scroll-view">
 
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><i class="fa fa-black-tie"></i> <span>HighFashion</span></a>
+            <a href="index.html" class="site_title"><span>HighFashion</span></a>
           </div>
           <div class="clearfix"></div>
 
@@ -60,8 +60,8 @@
               <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-              <span>Welcome,</span>
-              <h2>Admin</h2>
+              <span>Welcome to</span>
+              <h2>HF Design Studio</h2>
             </div>
           </div>
           <!-- /menu prile quick info -->
@@ -72,9 +72,6 @@
 		  {% include "sidebar.html" %}
           <!-- /sidebar menu -->
 
-          <!-- /menu footer buttons -->
-          {% include "side_footer.html" %}
-          <!-- /menu footer buttons -->
         </div>
       </div>
 
@@ -83,22 +80,83 @@
 
       <!-- page content -->
       <div class="right_col" role="main">
-        <div class="">
+        <div id="design_page" class="">
 
-          <div class="page-title">
-            <div class="title_left">
-              <h3>
-                <small>
-                </small>
-              </h3>
-            </div>
+		  <div id="step1_msg">
+
+			<button id="input_text_modal" type="button" class="btn btn-primary hide" data-toggle="modal" data-target="#step1_input_text">Input Text</button>
+
+			<div id="step1_input_text" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+			  <div class="modal-dialog modal-sm">
+			  <div class="modal-content">
+
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				  <h4 class="modal-title" id="myModalLabel2">Insert Text</h4>
+				</div>
+				<div class="modal-body">
+				  <p>Fashion Style What you want to design</p>
+				  <input type="text" id="input_text" required="required" class="form-control col-md-5 col-xs-5">
+				</div>
+				<div class="modal-footer" style="margin-top: 15px;">
+				  <button type="button" class="btn btn-primary" data-dismiss="modal">Insert</button>
+				</div>
+
+			  </div>
+			  </div>
+			</div>
+
 		  </div>
 
-          <div class="clearfix"></div>
+		  <div id="step1_container" class="col-md-5 hide">
 
-        <!-- footer content -->
-		{% include "footer.html" %}
-        <!-- /footer content -->
+            <div class="page-title">
+              <div class="title_left">
+                <h3>
+			  	  Step 1.
+                  <small>Scatch</small>
+                </h3>
+              </div>
+		    </div>
+		  </div>
+
+		  <div id="step2_container" class="col-md-7 hide">
+
+            <div class="page-title">
+              <div class="title_left">
+                <h3>
+			  	  Step 2.
+                  <small>Edit Detail</small>
+                </h3>
+              </div>
+		    </div>
+		  </div>
+
+		  <div id="step3_container" class="col-md-4 hide">
+
+            <div class="page-title">
+              <div class="title_left">
+                <h3>
+			  	  Step 3.
+                  <small>Design</small>
+                </h3>
+              </div>
+		    </div>
+		  </div>
+
+		  <div id="step4_container" class="col-md-8 hide">
+
+            <div class="page-title">
+              <div class="title_left">
+                <h3>
+			  	  Step 4.
+                  <small>Similar Fashion</small>
+                </h3>
+              </div>
+		    </div>
+		  </div>
+
+	    <div class="clearfix"></div>
 
       </div>
       <!-- /page content -->
@@ -130,9 +188,8 @@
   <script src="{% static 'js/chartjs/chart.min.js' %}"></script>
 
   <!-- Custom --> 
-  <script src="{% static 'js/tb/server.js' %}"></script>
-  <script src="{% static 'js/tb/callback.js' %}"></script>
-  <script src="{% static 'js/tb/main.js' %}"></script>
+  <script src="{% static 'js/design/step.js' %}"></script>
+  <script src="{% static 'js/design/main.js' %}"></script>
 
 </body>
 
