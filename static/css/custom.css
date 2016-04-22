@@ -171,7 +171,6 @@ body .container.body .right_col {
   background: #F7F7F7;
 }
 body.nav-md .container.body .right_col {
-  padding: 10px 20px 0;
   margin-left: 230px;
 }
 .nav_title {
@@ -5392,3 +5391,27 @@ ul.notifications {
 .copyright-info {
   padding: 8px 0;
 }
+
+.slide-with-border {
+  border: solid 25px white;
+}
+
+hr.style18 { 
+	height: 30px; 
+	border-style: solid; 
+	border-color: #8c8b8b; 
+	border-width: 1px 0 0 0; 
+	border-radius: 20px; 
+} 
+
+hr.style18:before { 
+	display: block; 
+	content: ""; 
+	height: 30px; 
+	margin-top: -31px; 
+	border-style: solid; 
+	border-color: #8c8b8b; 
+	border-width: 0 0 1px 0; 
+	border-radius: 20px; 
+}
+
