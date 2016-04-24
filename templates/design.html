@@ -15,8 +15,9 @@
   <!-- Bootstrap core CSS -->
 
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/jquery.fullPage.css' %}" rel="stylesheet">
-
+  <link href="{% static 'css/fullpage/jquery.fullPage.css' %}" rel="stylesheet">
+  <link href="{% static 'css/imagepicker/image-picker.css' %}" rel="stylesheet">
+  
   <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
 
@@ -104,7 +105,10 @@
   				  <h5> Scatch Images </h5>
   				  <hr class="style18" />
 
-  				  <div id="step1_scatch_images" style="height: 300px; overflow: auto;"></div>
+  				  <div style="height: 300px; overflow: auto;">
+					<select id="step1_scatch_images" class="image-picker show-labels show-html">
+					</select>
+				  </div>
 
   				</div>
 
@@ -139,7 +143,7 @@
   				  <div class="row">
   					<div class="col-md-8">
   					  <div class="img-container">
-  						<img src="{% static 'images/picture2.jpg' %}" alt="Picture">
+  						<img id="step2_image" src="{% static 'images/picture2.jpg' %}" alt="Picture">
   					  </div>
   					</div>
   					<div class="col-md-4">
@@ -756,11 +760,15 @@
   <!-- image cropping -->
   <script src="{% static 'js/cropping/cropper.min.js' %}"></script>
   <script src="{% static 'js/cropping/main2.js' %}"></script>
+  
+  <!-- image picker -->
+  <script src="{% static 'js/imagepicker/image-picker.min.js' %}"></script>
 
   <!-- jQuery fullPage -->
-  <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
+  <script src="{% static 'js/fullpage/jquery.fullPage.min.js' %}"></script>
 
   <!-- Custom -->
+  <script src="{% static 'js/design/server.js' %}"></script>
   <script src="{% static 'js/design/step.js' %}"></script>
   <script src="{% static 'js/design/main.js' %}"></script>
 

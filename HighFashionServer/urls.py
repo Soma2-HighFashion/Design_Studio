@@ -20,6 +20,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
 from home.views import index, design
+from generator.views import generator
 	 
 router = routers.DefaultRouter()
 
@@ -29,6 +30,7 @@ urlpatterns = [
 	url(r'^api/', include(router.urls)),
 	url(r'^$', index, name='index'),
 	url(r'^design$', design, name='design'),
+	url(r'^generator$', generator, name='generator'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
 ]
 

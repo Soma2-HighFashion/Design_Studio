@@ -57,10 +57,16 @@ $( document ).ready(function() {
 	// init
 	nav.click();
 	progress_on(step1_ui);
-
+	
+	$("#step1_scatch_images").imagepicker();
 	var scatch_btn = $("#step1_scatch_btn");
 	scatch_btn.click(function(){
-		$("#step1_scatch_images").append('<img src="http://img.hiphoper.com/images/lweb/file/street/thumb-32158264_Do18mlRr_2_162x253.jpg" width=128 height=128 style="margin: 3px;">');
+		generateImage('generator', '', function(response) {
+			var value = $("#step1_scatch_images option").length;
+			var scatchImages = $("#step1_scatch_images");
+			scatchImages.append('<option data-img-src="/static/generator/' + response.results + '" data-img-label="Test" value="'+(value+1)+'"></option>');	
+			scatchImages.imagepicker();
+		});
 
 		var images = $("#step1_scatch_images img");
 		images.unbind('click');
