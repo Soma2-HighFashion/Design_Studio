@@ -47,9 +47,10 @@ $( document ).ready(function() {
 	var steps_ui = [step1_ui, step2_ui, step3_ui, step4_ui];
 
 	for (var i = 0; i < steps_ui.length; i++) {
-		steps_ui[i][0].click(function(i){
-			alert("test" + (i+1));
-			$.fn.fullpage.moveTo(3);
+		steps_ui[i][0].click(function(e){
+			e.preventDefault();
+			progressIndex = $(this).attr("tag");
+			$.fn.fullpage.moveTo(progressIndex);
 		});
 	}
 

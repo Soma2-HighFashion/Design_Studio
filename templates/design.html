@@ -86,64 +86,632 @@
 
 			  <div id="step1_container" class="col-md-12 section slide-with-border">
 
-				<div class="page-title">
-				  <div class="title_left">
-					<h3>
-					  Step 1.
-					  <small>Scatch</small>
-					</h3>
-				  </div>
-				</div>
+  				<div class="page-title">
+  				  <div class="title_left">
+  					<h3>
+  					  Step 1.
+  					  <small>Scatch</small>
+  					</h3>
+  				  </div>
+  				</div>
 
-				<div style="position: relative; text-align: center; padding: 30px;">
-				  <p>Fashion Style What you want to design</p>
-				  <input type="text" id="input_text" required="required" class="form-control">
-				  <br />
-				  <button id="step1_scatch_btn" type="button" class="btn btn-dark"> Scatch!! </button>
+  				<div style="position: relative; text-align: center; padding: 30px;">
+  				  <p>Fashion Style What you want to design</p>
+  				  <input type="text" id="input_text" required="required" class="form-control">
+  				  <br />
+  				  <button id="step1_scatch_btn" type="button" class="btn btn-dark"> Scatch!! </button>
 
-				  <h5> Scatch Images </h5>
-				  <hr class="style18" />
+  				  <h5> Scatch Images </h5>
+  				  <hr class="style18" />
 
-				  <div id="step1_scatch_images" style="height: 265px; overflow: auto;"></div>
+  				  <div id="step1_scatch_images" style="height: 300px; overflow: auto;"></div>
 
-				</div>
+  				</div>
+
+          <div class="col-md-2 form-group pull-right">
+            <div class="input-group">
+              <h4 style="padding-right: 15px;">
+                Next Step
+              </h4>
+              <span class="input-group-btn">
+                <a class="btn btn-app">
+                  <i class="fa fa-edit"></i> Edit Detail
+                </a>
+              </span>
+            </div>
+          </div>
 
 			  </div>
 
 			  <div id="step2_container" class="col-md-12 section slide-with-border">
 
-				<div class="page-title">
-				  <div class="title_left">
-					<h3>
-					  Step 2.
-					  <small>Edit Detail</small>
-					</h3>
-				  </div>
-				</div>
+  				<div class="page-title">
+  				  <div class="title_left">
+  					<h3>
+  					  Step 2.
+  					  <small>Edit Detail</small>
+  					</h3>
+  				  </div>
+  				</div>
+
+  				<!-- image cropping -->
+  				<div class="container">
+  				  <div class="row">
+  					<div class="col-md-8">
+  					  <div class="img-container">
+  						<img src="{% static 'images/picture2.jpg' %}" alt="Picture">
+  					  </div>
+  					</div>
+  					<div class="col-md-4">
+  					  <div class="docs-preview clearfix">
+  						<div class="img-preview preview-lg"></div>
+  						<div class="img-preview preview-md"></div>
+  						<div class="img-preview preview-sm"></div>
+  						<div class="img-preview preview-xs"></div>
+  					  </div>
+
+  					  <div class="docs-data">
+  						<div class="input-group">
+  						  <label class="input-group-addon" for="dataX">X</label>
+  						  <input class="form-control" id="dataX" type="text" placeholder="x">
+  						  <span class="input-group-addon">px</span>
+  						</div>
+  						<div class="input-group">
+  						  <label class="input-group-addon" for="dataY">Y</label>
+  						  <input class="form-control" id="dataY" type="text" placeholder="y">
+  						  <span class="input-group-addon">px</span>
+  						</div>
+  						<div class="input-group">
+  						  <label class="input-group-addon" for="dataWidth">Width</label>
+  						  <input class="form-control" id="dataWidth" type="text" placeholder="width">
+  						  <span class="input-group-addon">px</span>
+  						</div>
+  						<div class="input-group">
+  						  <label class="input-group-addon" for="dataHeight">Height</label>
+  						  <input class="form-control" id="dataHeight" type="text" placeholder="height">
+  						  <span class="input-group-addon">px</span>
+  						</div>
+  						<div class="input-group">
+  						  <label class="input-group-addon" for="dataRotate">Rotate</label>
+  						  <input class="form-control" id="dataRotate" type="text" placeholder="rotate">
+  						  <span class="input-group-addon">deg</span>
+  						</div>
+  					  </div>
+  					</div>
+  				  </div>
+  				  <div class="row">
+  					<div class="col-md-8 docs-buttons">
+  					  <div class="btn-group">
+  						<button class="btn btn-primary" data-method="setDragMode" data-option="move" type="button" title="Move">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
+  											<span class="fa fa-arrows"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="setDragMode" data-option="crop" type="button" title="Crop">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)">
+  											<span class="fa fa-crop"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, 0.1)">
+  											<span class="fa fa-search-plus"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, -0.1)">
+  											<span class="fa fa-search-minus"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="rotate" data-option="-45" type="button" title="Rotate Left">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, -45)">
+  											<span class="fa fa-rotate-left"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="rotate" data-option="45" type="button" title="Rotate Right">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;rotate&quot;, 45)">
+  											<span class="fa fa-rotate-right"></span>
+  						  </span>
+  						</button>
+  					  </div>
+
+  					  <div class="btn-group">
+  						<button class="btn btn-primary" data-method="disable" type="button" title="Disable">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;disable&quot;)">
+  											<span class="fa fa-lock"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="enable" type="button" title="Enable">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;enable&quot;)">
+  											<span class="fa fa-unlock"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="clear" type="button" title="Clear">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;clear&quot;)">
+  											<span class="fa fa-close"></span>
+  						  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="reset" type="button" title="Reset">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;reset&quot;)">
+  											<span class="fa fa-refresh"></span>
+  						  </span>
+  						</button>
+  						<label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+  						  <input class="sr-only" id="inputImage" name="file" type="file" accept="image/*">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
+  											<span class="fa fa-upload"></span>
+  						  </span>
+  						</label>
+  						<button class="btn btn-primary" data-method="destroy" type="button" title="Destroy">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;destroy&quot;)">
+  											<span class="fa fa-power-off"></span>
+  						  </span>
+  						</button>
+  					  </div>
+
+  					  <div class="btn-group btn-group-crop">
+  						<button class="btn btn-primary" data-method="getDataURL" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;)">
+  											Get Data URL
+  										  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="getDataURL" data-option="image/jpeg" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, &quot;image/jpeg&quot;)">
+  											JPG
+  										  </span>
+  						</button>
+  						<!-- <button class="btn btn-primary" data-method="getDataURL" data-option="image/webp" type="button">
+  										  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, &quot;image/webp&quot;)">
+  											WEBP
+  										  </span>
+  										</button> -->
+  						<button class="btn btn-primary" data-method="getDataURL" data-option="{ &quot;width&quot;: 160, &quot;height&quot;: 90 }" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, { &quot;width&quot;: 160, &quot;height&quot;: 90 })">
+  											160 &times; 90
+  										  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="getDataURL" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getDataURL&quot;, { &quot;width&quot;: 320, &quot;height&quot;: 180 })">
+  											320 &times; 180
+  										  </span>
+  						</button>
+  					  </div>
+
+  					  <!-- Show the cropped image in modal -->
+  					  <div class="modal fade docs-cropped" id="getDataURLModal" aria-hidden="true" aria-labelledby="getDataURLTitle" role="dialog" tabindex="-1">
+  						<div class="modal-dialog">
+  						  <div class="modal-content">
+  							<div class="modal-header">
+  							  <button class="close" data-dismiss="modal" type="button" aria-hidden="true">&times;</button>
+  							  <h4 class="modal-title" id="getDataURLTitle">Cropped</h4>
+  							</div>
+  							<div class="modal-body"></div>
+  							<!-- <div class="modal-footer">
+  											  <button class="btn btn-primary" data-dismiss="modal" type="button">Close</button>
+  											</div> -->
+  						  </div>
+  						</div>
+  					  </div>
+  					  <!-- /.modal -->
+
+  					  <div class="btn-group">
+  						<button class="btn btn-primary" data-method="getData" data-option="" data-target="#putData" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getData&quot;)">
+  											Get Data
+  										  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="getData" data-option="true" data-target="#putData" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getData&quot;, true)">
+  											Rounded
+  										  </span>
+  						</button>
+  					  </div>
+  					  <div class="btn-group">
+  						<button class="btn btn-primary" data-method="getImageData" data-option="" data-target="#putData" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getImageData&quot;)">
+  											Get Image Data
+  										  </span>
+  						</button>
+  						<button class="btn btn-primary" data-method="getImageData" data-option="true" data-target="#putData" type="button">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getImageData&quot;, true)">
+  											All
+  										  </span>
+  						</button>
+  					  </div>
+  					  <button class="btn btn-primary" data-method="setImageData" data-target="#putData" type="button">
+  						<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setImageData&quot;, data)">
+  										  Set Image Data
+  										</span>
+  					  </button>
+  					  <button class="btn btn-primary" data-method="getCropBoxData" data-option="" data-target="#putData" type="button">
+  						<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCropBoxData&quot;)">
+  										  Get Crop Box Data
+  										</span>
+  					  </button>
+  					  <button class="btn btn-primary" data-method="setCropBoxData" data-target="#putData" type="button">
+  						<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setCropBoxData&quot;, data)">
+  										  Set Crop Box Data
+  										</span>
+  					  </button>
+  					  <input class="form-control" id="putData" type="text" placeholder="Get data to here or set data with this value">
+
+  					</div>
+  					<!-- /.docs-buttons -->
+
+  					<div class="col-md-4 docs-toggles">
+  					  <!-- <h3 class="page-header">Toggles:</h3> -->
+  					  <div class="btn-group btn-group-justified" data-toggle="buttons">
+  						<label class="btn btn-primary active" data-method="setAspectRatio" data-option="1.7777777777777777" title="Set Aspect Ratio">
+  						  <input class="sr-only" id="aspestRatio1" name="aspestRatio" value="1.7777777777777777" type="radio">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 16 / 9)">
+  											16:9
+  										  </span>
+  						</label>
+  						<label class="btn btn-primary" data-method="setAspectRatio" data-option="1.3333333333333333" title="Set Aspect Ratio">
+  						  <input class="sr-only" id="aspestRatio2" name="aspestRatio" value="1.3333333333333333" type="radio">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 4 / 3)">
+  											4:3
+  										  </span>
+  						</label>
+  						<label class="btn btn-primary" data-method="setAspectRatio" data-option="1" title="Set Aspect Ratio">
+  						  <input class="sr-only" id="aspestRatio3" name="aspestRatio" value="1" type="radio">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 1 / 1)">
+  											1:1
+  										  </span>
+  						</label>
+  						<label class="btn btn-primary" data-method="setAspectRatio" data-option="0.6666666666666666" title="Set Aspect Ratio">
+  						  <input class="sr-only" id="aspestRatio4" name="aspestRatio" value="0.6666666666666666" type="radio">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 2 / 3)">
+  											2:3
+  										  </span>
+  						</label>
+  						<label class="btn btn-primary" data-method="setAspectRatio" data-option="NaN" title="Set Aspect Ratio">
+  						  <input class="sr-only" id="aspestRatio5" name="aspestRatio" value="NaN" type="radio">
+  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, NaN)">
+  											Free
+  										  </span>
+  						</label>
+  					  </div>
+
+  					  <div style="position: relative; left: 40%; margin-top: 50px;">
+
+  					  </div>
+
+              <div class="col-md-6 form-group pull-right">
+                <div class="input-group">
+                  <h4 style="padding-right: 15px;">
+                    Next Step
+                  </h4>
+                  <span class="input-group-btn">
+                    <a class="btn btn-app">
+                      <i class="fa fa-magic"></i> Design
+                    </a>
+                  </span>
+                </div>
+              </div>
+
+  					</div>
+  					<!-- /.docs-toggles -->
+  				  </div>
+  				</div>
+  				<!-- /image cropping -->
+
 			  </div>
 
 			  <div id="step3_container" class="col-md-12 section slide-with-border">
 
-				<div class="page-title">
-				  <div class="title_left">
-					<h3>
-					  Step 3.
-					  <small>Design</small>
-					</h3>
-				  </div>
-				</div>
+  				<div class="page-title">
+  				  <div class="title_left">
+  					<h3>
+  					  Step 3.
+  					  <small>Design</small>
+  					</h3>
+  				  </div>
+  				</div>
+
+          <div class="col-md-5 col-sm-12 col-xs-12">
+            <div class="x_panel" style="text-align: center;">
+              <div class="x_title">
+                <h2>View Big Image</h2>
+                <div class="clearfix"></div>
+              </div>
+              <img src="{% static 'images/picture2.jpg' %}" alt="Picture" width=50%; height=100%;>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-xs-12 widget widget_tally_box">
+            <div class="x_panel fixed_height_390">
+              <div class="x_content">
+
+                <div class="flex">
+                  <ul class="list-inline widget_profile_box">
+                    <li>
+                      <a>
+                        <i class="fa fa-facebook"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <img src="{% static 'images/picture2.jpg' %}" class="img-circle profile_img" alt="Picture" width=100%; height=100%;>
+                    </li>
+                    <li>
+                      <a>
+                        <i class="fa fa-twitter"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <h3 class="name">Street Fashion</h3>
+
+                <div class="flex">
+                  <ul class="list-inline count2">
+                    <li>
+                      <h3>123</h3>
+                      <span>Articles</span>
+                    </li>
+                    <li>
+                      <h3>1234</h3>
+                      <span>Followers</span>
+                    </li>
+                    <li>
+                      <h3>123</h3>
+                      <span>Following</span>
+                    </li>
+                  </ul>
+                </div>
+                <p>
+                  If you've decided to go in development mode and tweak all of this a bit, there are few things you should do.
+                </p>
+              </div>
+            </div>
+          </div>
+
+  				<div class="col-md-4">
+
+  				  <div class="x_panel">
+  					  <div class="x_title">
+  					    <h2>Analysis</h2>
+  					    <div class="clearfix"></div>
+  					  </div>
+  					  <div class="x_content">
+  					    <div id="echart_pie2" style="height:350px;"></div>
+  					  </div>
+  				  </div>
+
+  				</div>
+
+          <div class="col-md-12">
+
+  				  <div class="x_panel">
+  					  <div class="x_title">
+  					    <h2>Text List</h2>
+  					    <div class="clearfix"></div>
+  					  </div>
+  				  </div>
+
+  				</div>
+
+          <div class="col-md-2 form-group pull-right">
+            <div class="input-group">
+              <h4 style="padding-right: 15px;">
+                Next Step
+              </h4>
+              <span class="input-group-btn">
+                <a class="btn btn-app">
+                  <i class="fa fa-search-plus"></i> Similar Fashion
+                </a>
+              </span>
+            </div>
+          </div>
+
 			  </div>
 
 			  <div id="step4_container" class="col-md-12 section slide-with-border">
 
-				<div class="page-title">
-				  <div class="title_left">
-					<h3>
-					  Step 4.
-					  <small>Similar Fashion</small>
-					</h3>
-				  </div>
-				</div>
+  				<div class="page-title">
+  				  <div class="title_left">
+  					<h3>
+  					  Bonus.
+  					  <small>Similar Fashion</small>
+  					</h3>
+  				  </div>
+  				</div>
+
+          <div class="col-md-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Fashion Gallery <small> design by HighFashion </small></h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+
+                <div class="row">
+
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="{% static 'images/4.jpg' %}" alt="image" />
+                      </div>
+                      <div class="caption">
+                        <p>Snow and Ice Incoming for the South</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask">
+                          <p>Your Text</p>
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p>Snow and Ice Incoming for the South</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask">
+                          <p>Your Text</p>
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p>Snow and Ice Incoming for the South</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask">
+                          <p>Your Text</p>
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p>Snow and Ice Incoming for the South</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask">
+                          <p>Your Text</p>
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p>Snow and Ice Incoming for the South</p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>Image Name</strong>
+                        </p>
+                        <p>Snow and Ice Incoming</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>Image Name</strong>
+                        </p>
+                        <p>Snow and Ice Incoming</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>Image Name</strong>
+                        </p>
+                        <p>Snow and Ice Incoming</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>Image Name</strong>
+                        </p>
+                        <p>Snow and Ice Incoming</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-55">
+                    <div class="thumbnail">
+                      <div class="image view view-first">
+                        <img style="width: 100%; display: block;" src="images/4.jpg" alt="image" />
+                        <div class="mask no-caption">
+                          <div class="tools tools-bottom">
+                            <a href="#"><i class="fa fa-link"></i></a>
+                            <a href="#"><i class="fa fa-pencil"></i></a>
+                            <a href="#"><i class="fa fa-times"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="caption">
+                        <p><strong>Image Name</strong>
+                        </p>
+                        <p>Snow and Ice Incoming</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
 			  </div>
 
 		  </div>
@@ -181,12 +749,80 @@
   <!-- chartJS -->
   <script src="{% static 'js/chartjs/chart.min.js' %}"></script>
 
+  <!-- echart -->
+  <script src="{% static 'js/echart/echarts-all.js' %}"></script>
+  <script src="{% static 'js/echart/green.js' %}"></script>
+
+  <!-- image cropping -->
+  <script src="{% static 'js/cropping/cropper.min.js' %}"></script>
+  <script src="{% static 'js/cropping/main2.js' %}"></script>
+
   <!-- jQuery fullPage -->
   <script src="{% static 'js/jquery.fullPage.min.js' %}"></script>
 
-  <!-- Custom --> 
+  <!-- Custom -->
   <script src="{% static 'js/design/step.js' %}"></script>
   <script src="{% static 'js/design/main.js' %}"></script>
+
+  <script>
+    var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
+    myChart.setOption({
+      tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+      },
+      legend: {
+        x: 'center',
+        y: 'bottom',
+        data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6']
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          magicType: {
+            show: true,
+            type: ['pie', 'funnel']
+          },
+          restore: {
+            show: true
+          },
+          saveAsImage: {
+            show: true
+          }
+        }
+      },
+      calculable: true,
+      series: [{
+        name: 'Area Mode',
+        type: 'pie',
+        radius: [25, 90],
+        center: ['50%', 170],
+        roseType: 'area',
+        x: '50%',
+        max: 40,
+        sort: 'ascending',
+        data: [{
+          value: 10,
+          name: 'rose1'
+        }, {
+          value: 5,
+          name: 'rose2'
+        }, {
+          value: 15,
+          name: 'rose3'
+        }, {
+          value: 25,
+          name: 'rose4'
+        }, {
+          value: 20,
+          name: 'rose5'
+        }, {
+          value: 35,
+          name: 'rose6'
+        }]
+      }]
+    });
+  </script>
 
 </body>
 
