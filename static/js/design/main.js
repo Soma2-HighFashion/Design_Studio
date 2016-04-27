@@ -1,16 +1,5 @@
-function progress_on(step) {
-	progress = step[0]; container = step[1];
-
-	var li = progress.parent()
-	li.addClass("current-page");
-}
-
-function progress_off(step) {
-	progress = step[0]; container = step[1];
-
-	var li = progress.parent()
-	li.removeClass("current-page");
-}
+inputTextArr = []
+selectedText = ""
 
 $( document ).ready(function() {
 	console.log( "ready!" );
@@ -54,35 +43,73 @@ $( document ).ready(function() {
 		});
 	}
 
+	var step1_plus_btn = $("#step1_image_plus");
+	var step1_minus_btn = $("#step1_image_minus");
+	
+	step1_plus_btn.click(function(){
+		$(this).focus();		
+	});
+
+	step1_minus_btn.click(function(){
+		$(this).focus();
+	});
+
 	// init
 	nav.click();
 	progress_on(step1_ui);
-	
-	$("#step1_scatch_images").imagepicker();
-	var scatch_btn = $("#step1_scatch_btn");
-	scatch_btn.click(function(){
-		generateImage('generator', '', function(response) {
-			var value = $("#step1_scatch_images option").length;
-			var scatchImages = $("#step1_scatch_images");
-			scatchImages.append('<option data-img-src="/static/generator/' + response.results + '" data-img-label="Test" value="'+(value+1)+'"></option>');	
-			scatchImages.imagepicker();
-		});
 
-		var images = $("#step1_scatch_images img");
-		images.unbind('click');
-		images.click(function(){
-			$.fn.fullpage.moveSectionDown();
-		});
+	var scatchImages = $("#step1_scatch_images");
+	scatchImages.imagepicker({
+		show_label: true
 	});
 
-	var Step1 = new StepOne(step2_ui);
-	Step1.progress();
+	// Step 1. Scatch
+	
+	var Step1 = new StepOne();
 
-	var Step2 = new StepTwo(step3_ui);
+	var scatch_btn = $("#step1_scatch_btn");
+	scatch_btn.click(function(){
+		Step1.scatch();	
+	});
+
+	var step1_next_btn = $("#step1_next");
+	step1_next_btn.click(function(){
+		if (selectedText != "") {
+			var step2Image = $("#step2_image");
+			step2Image.attr('src', selectedText);
+			Step1.next();
+
+			$.fn.fullpage.moveSectionDown();
+		} else {
+			alert("Scatch & Select!");
+		}
+	});
+
+	// Step 2. Edit Detail
+
+	var Step2 = new StepTwo();
 	//Step2.progress();
+
+	var step2_next_btn = $("#step2_next");
+	step2_next_btn.click(function(){
+		Step2.next();
+
+		$.fn.fullpage.moveSectionDown();
+	});
+
+	// Step 3. Design
 
 	var Step3 = new StepThree(step4_ui);
 	//Step3.progress();
+
+	var step3_next_btn = $("#step3_next");
+	step3_next_btn.click(function(){
+		Step3.next();
+
+		$.fn.fullpage.moveSectionDown();
+	});
+
+	// Step 4. Similar Fashion
 
 	var Step4 = new StepFour();
 	//Step4.progress();

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'rest_framework',
 	'home',
-	'generator'
+	'generator',
+	'super_resolution'
 ]
 
 REST_FRAMEWORK = {

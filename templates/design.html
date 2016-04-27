@@ -98,9 +98,11 @@
 
   				<div style="position: relative; text-align: center; padding: 30px;">
   				  <p>Fashion Style What you want to design</p>
-  				  <input type="text" id="input_text" required="required" class="form-control">
-  				  <br />
-  				  <button id="step1_scatch_btn" type="button" class="btn btn-dark"> Scatch!! </button>
+				  <form>
+  				    <input type="text" id="step1_input_text" required="required" class="form-control" style="width: 40%; margin: 0 auto;">
+  				    <br />
+  				    <button id="step1_scatch_btn" type="button" class="btn btn-dark"> Scatch!! </button>
+				  </form>
 
   				  <h5> Scatch Images </h5>
   				  <hr class="style18" />
@@ -112,18 +114,34 @@
 
   				</div>
 
-          <div class="col-md-2 form-group pull-right">
-            <div class="input-group">
-              <h4 style="padding-right: 15px;">
-                Next Step
-              </h4>
-              <span class="input-group-btn">
-                <a class="btn btn-app">
-                  <i class="fa fa-edit"></i> Edit Detail
-                </a>
-              </span>
-            </div>
-          </div>
+				<div class="col-md-3 form-group pull-left">
+				  <div class="input-group">
+					<h4 style="padding-right: 15px;">
+					  Image Arithmetic
+					</h4>
+					<span class="input-group-btn">
+					  <a id="step1_image_plus" class="btn btn-app">
+						<i class="fa fa-plus"></i> Plus
+					  </a>
+					  <a id="step1_image_minus" class="btn btn-app">
+						<i class="fa fa-minus"></i> Minus
+					  </a>
+					</span>
+				  </div>
+				</div>
+
+				<div class="col-md-2 form-group pull-right">
+				  <div class="input-group">
+					<h4 style="padding-right: 15px;">
+					  Next Step
+					</h4>
+					<span class="input-group-btn">
+					  <a id="step1_next" class="btn btn-app">
+						<i class="fa fa-edit"></i> Edit Detail
+					  </a>
+					</span>
+				  </div>
+				</div>
 
 			  </div>
 
@@ -380,18 +398,18 @@
 
   					  </div>
 
-              <div class="col-md-6 form-group pull-right">
-                <div class="input-group">
-                  <h4 style="padding-right: 15px;">
-                    Next Step
-                  </h4>
-                  <span class="input-group-btn">
-                    <a class="btn btn-app">
-                      <i class="fa fa-magic"></i> Design
-                    </a>
-                  </span>
-                </div>
-              </div>
+					  <div class="col-md-6 form-group pull-right">
+						<div class="input-group">
+						  <h4 style="padding-right: 15px;">
+							Next Step
+						  </h4>
+						  <span class="input-group-btn">
+							<a id="step2_next" class="btn btn-app">
+							  <i class="fa fa-magic"></i> Design
+							</a>
+						  </span>
+						</div>
+					  </div>
 
   					</div>
   					<!-- /.docs-toggles -->
@@ -412,62 +430,64 @@
   				  </div>
   				</div>
 
-          <div class="col-md-5 col-sm-12 col-xs-12">
-            <div class="x_panel" style="text-align: center;">
-              <div class="x_title">
-                <h2>View Big Image</h2>
-                <div class="clearfix"></div>
-              </div>
-              <img src="{% static 'images/picture2.jpg' %}" alt="Picture" width=50%; height=100%;>
-            </div>
-          </div>
+				<div class="col-md-5 col-sm-12 col-xs-12">
+				  <div class="x_panel" style="text-align: center;">
+					<div class="x_title">
+					  <h2>View Big Image</h2>
+					  <div class="clearfix"></div>
+					</div>
+					<img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" width=50%; height=100%;>
+				  </div>
+				</div>
 
-          <div class="col-md-3 col-xs-12 widget widget_tally_box">
-            <div class="x_panel fixed_height_390">
-              <div class="x_content">
+				<div class="col-md-3 col-xs-12 widget widget_tally_box">
+				  <div class="x_panel fixed_height_390">
+					<div class="x_content">
 
-                <div class="flex">
-                  <ul class="list-inline widget_profile_box">
-                    <li>
-                      <a>
-                        <i class="fa fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <img src="{% static 'images/picture2.jpg' %}" class="img-circle profile_img" alt="Picture" width=100%; height=100%;>
-                    </li>
-                    <li>
-                      <a>
-                        <i class="fa fa-twitter"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+					  <div class="flex">
+					    <ul class="list-inline widget_profile_box">
+						  <li>
+							<a>
+							  <i class="fa fa-facebook"></i>
+							</a>
+						  </li>
+						  <li>
+						    <img id="step3_circle_image" src="{% static 'images/picture2.jpg' %}" class="img-circle profile_img" alt="Picture" width=100%; height=100%;>
+						  </li>
+						  <li>
+							<a>
+							  <i class="fa fa-twitter"></i>
+							</a>
+						  </li>
+						</ul>
+					  </div>
 
-                <h3 class="name">Street Fashion</h3>
+					  <h3 class="name">Street Fashion</h3>
 
-                <div class="flex">
-                  <ul class="list-inline count2">
-                    <li>
-                      <h3>123</h3>
-                      <span>Articles</span>
-                    </li>
-                    <li>
-                      <h3>1234</h3>
-                      <span>Followers</span>
-                    </li>
-                    <li>
-                      <h3>123</h3>
-                      <span>Following</span>
-                    </li>
-                  </ul>
-                </div>
-                <p>
-                  If you've decided to go in development mode and tweak all of this a bit, there are few things you should do.
-                </p>
-              </div>
-            </div>
-          </div>
+					  <div class="flex">
+						<ul class="list-inline count2">
+						  <li>
+							<h3>123</h3>
+							<span>Articles</span>
+						  </li>
+						  <li>
+							<h3>1234</h3>
+							<span>Followers</span>
+						  </li>
+						  <li>
+							<h3>123</h3>
+							<span>Following</span>
+						  </li>
+						</ul>
+					  </div>
+						
+					  <p>
+						  If you've decided to go in development mode and tweak all of this a bit, there are few things you should do.
+					  </p>
+
+				  	</div>
+				  </div>
+				</div>
 
   				<div class="col-md-4">
 
@@ -500,25 +520,25 @@
                 Next Step
               </h4>
               <span class="input-group-btn">
-                <a class="btn btn-app">
+                <a id="step3_next" class="btn btn-app">
                   <i class="fa fa-search-plus"></i> Similar Fashion
                 </a>
               </span>
             </div>
           </div>
 
-			  </div>
+		</div>
 
-			  <div id="step4_container" class="col-md-12 section slide-with-border">
+		<div id="step4_container" class="col-md-12 section slide-with-border">
 
-  				<div class="page-title">
-  				  <div class="title_left">
-  					<h3>
-  					  Bonus.
-  					  <small>Similar Fashion</small>
-  					</h3>
-  				  </div>
-  				</div>
+		  <div class="page-title">
+		    <div class="title_left">
+			  <h3>
+			    Bonus.
+			    <small>Similar Fashion</small>
+			  </h3>
+		    </div>
+		  </div>
 
           <div class="col-md-12">
             <div class="x_panel">
@@ -759,7 +779,6 @@
 
   <!-- image cropping -->
   <script src="{% static 'js/cropping/cropper.min.js' %}"></script>
-  <script src="{% static 'js/cropping/main2.js' %}"></script>
   
   <!-- image picker -->
   <script src="{% static 'js/imagepicker/image-picker.min.js' %}"></script>
