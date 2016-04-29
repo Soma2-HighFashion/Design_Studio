@@ -75,8 +75,6 @@ $( document ).ready(function() {
 	var step1_next_btn = $("#step1_next");
 	step1_next_btn.click(function(){
 		if (selectedText != "") {
-			var step2Image = $("#step2_image");
-			step2Image.attr('src', selectedText);
 			Step1.next();
 
 			$.fn.fullpage.moveSectionDown();

@@ -10,11 +10,11 @@ def super_resolution(request):
 	os.chdir(super_resolution_path)
 
 	generator_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/generator/"
-	input_image= str(request.GET['input'])
-	output_uid = str(uuid.uuid4())
+	input_image_uid = str(request.GET['input'])
+	design_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/designed/"
 
-	cmd = "th waifu2x.lua -model_dir models/photo -m scale -i "+generator_path+input_image".png -o "+output_uid+".png" 
+	cmd = "th waifu2x.lua -model_dir models/photo -m scale -i " + generator_path+input_image_uid + " -o " + design_path+input_image_uid 
 	gerenate_image = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
 	return JsonResponse(
-		{'results' : gerenate_image.stdout.read()}
+		{'results' : os.path.basename(gerenate_image.stdout.read()).strip() }
 	)

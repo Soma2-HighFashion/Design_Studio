@@ -1,7 +1,11 @@
 ctxPath = "" 
 
-function generateImage(api, query, uiCallBackFunc) {
-	commonAjaxFunction(api + "?" + query, uiCallBackFunc);
+function generateImage(uiCallBackFunc) {
+	commonAjaxFunction("generator", uiCallBackFunc);
+}
+
+function superResoluteImage(params, uiCallBackFunc) {
+	commonAjaxFunction("super_resolution?input=" + params, uiCallBackFunc);
 }
 
 function commonAjaxFunction(urlStr, callBack, callbackParam) {
@@ -21,5 +25,4 @@ function commonAjaxFunction(urlStr, callBack, callbackParam) {
 		},
 
 	});
-
 }

@@ -21,6 +21,7 @@ from django.contrib import admin
 from rest_framework import routers
 from home.views import index, design
 from generator.views import generator
+from super_resolution.views import super_resolution
 	 
 router = routers.DefaultRouter()
 
@@ -31,6 +32,7 @@ urlpatterns = [
 	url(r'^$', index, name='index'),
 	url(r'^design$', design, name='design'),
 	url(r'^generator$', generator, name='generator'),
+	url(r'^super_resolution$', super_resolution, name='super_resolution'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
 ]
 

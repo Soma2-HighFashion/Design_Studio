@@ -13,12 +13,14 @@ function progress_off(step) {
 }
 
 function StepOne() {
-
+	this.generatorPath = "/static/generator/"
+	this.designedPath = "/static/designed/"
 }
 
 StepOne.prototype.scatch = function() {
 
 	var textValue = $("#step1_input_text").val();
+	var generatorPath = this.generatorPath
 
 	if (textValue == "") {
 		alert("Insert Text!");
@@ -26,17 +28,18 @@ StepOne.prototype.scatch = function() {
 		alert("Duplicate Text!");
 	} else {
 		inputTextArr.push(textValue);
-		generateImage('generator', '', function(response) {
+		generateImage(function(response) {
 			var scatchImages = $("#step1_scatch_images");
 			scatchImages.append(
 				'<option data-img-label="'+textValue+
-				'"data-img-src="/static/generator/' + response.results + 
+				'"data-img-src="' + generatorPath + response.results + 
 				'" data-img-label="Test" value="'+textValue+
+				'" data-img-uid="' + response.results +
 				'"></option>');	
 			scatchImages.imagepicker({
 				show_label: true,
 				clicked:function(){
-					imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-src');
+					imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
 					selectedText = imagePath;
 				}
 			});
@@ -46,7 +49,11 @@ StepOne.prototype.scatch = function() {
 
 StepOne.prototype.next = function() {
 
-	$(function () {
+	var designedPath = this.designedPath
+	
+	superResoluteImage(selectedText, function(response) {
+		var step2Image = $("#step2_image");
+		step2Image.attr('src', designedPath + response.results);
 
 		var console = window.console || { log: function () {} },
 			$alert = $('.docs-alert'),
@@ -201,6 +208,12 @@ StepOne.prototype.next = function() {
 
 		}());
 
+	
+	});
+
+	$(function () {
+
+		
 	});
 }
 
