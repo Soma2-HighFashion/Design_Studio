@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 def generator(request):
-	image_generator_path = "/home/dj/HighFashionProject/image_generator/"
+	image_generator_path = "/home/dj/HighFashionProject/word2image/dcgan"
 	os.chdir(image_generator_path)
 
 	image_uid = str(uuid.uuid4())
