@@ -11,7 +11,7 @@ def generator(request):
 
 	image_uid = str(uuid.uuid4())
 
-	cmd = "gpu=0 batchSize=1 name="+image_uid+" net=checkpoints/fashionC_7_net_G.t7 th generate.lua" 
+	cmd = "gpu=1 batchSize=1 noise=normal name="+image_uid+" net=checkpoints/fashionF_4_net_G.t7 th generate.lua" 
 	gerenate_image = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
 	return JsonResponse(
 		{'results' : os.path.basename(gerenate_image.stdout.read()).strip() }
