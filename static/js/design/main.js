@@ -83,22 +83,17 @@ $( document ).ready(function() {
 		}
 	});
 
+	Caman("#step2_image_canvas", "/static/images/picture2.jpg", function () {
+		// manipulate image here
+		this.brightness(5).render();
+	});
+
+
 	// Step 2. Edit Detail
 
 	var Step2 = new StepTwo();
 	//Step2.progress();
 	
-	var vintage = $('#vintagebtn');
-	vintage.on('click', function(e) {
-		alert("click!");
-		Caman('#step2_image', function () {
-			this.brightness(40);
-			this.contrast(-10);
-			this.sinCity();
-			this.render();
-		});
-	});
-
 	var step2_next_btn = $("#step2_next");
 	step2_next_btn.click(function(){
 		Step2.next();

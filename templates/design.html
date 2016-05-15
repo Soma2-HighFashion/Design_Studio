@@ -107,7 +107,7 @@
   				  <h5> Scatch Images </h5>
   				  <hr class="style18" />
 
-  				  <div style="height: 250px; overflow: auto;">
+  				  <div style="height: 22.5vw; overflow: auto;">
 					<select id="step1_scatch_images" class="image-picker show-labels show-html">
 					</select>
 				  </div>
@@ -159,170 +159,56 @@
   				<!-- image cropping -->
   				<div class="container">
   				  <div class="row">
-  					<div class="col-md-8">
-  					  <div class="img-container">
-  						<img id="step2_image" src="" alt="Picture">
+  					<div class="col-md-6" style="text-align: center; height: 40vw; padding: 5vw;">
+					  <h2> Image Preview </h2>
+					  <br/>
+  					  <div class="img-container">	
+					    <canvas id="step2_image_canvas"><canvas/>
   					  </div>
-
-					  <div style="text-align: center;">
-						  <div class="btn-group">
-							<button class="btn btn-dark" data-method="setDragMode" data-option="move" type="button" title="Move">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
-												<span class="fa fa-arrows"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="setDragMode" data-option="crop" type="button" title="Crop">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setDragMode&quot;, &quot;crop&quot;)">
-												<span class="fa fa-crop"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="zoom" data-option="0.1" type="button" title="Zoom In">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, 0.1)">
-												<span class="fa fa-search-plus"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="zoom" data-option="-0.1" type="button" title="Zoom Out">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;zoom&quot;, -0.1)">
-												<span class="fa fa-search-minus"></span>
-							  </span>
-							</button>
-						  </div>
-
-						  <div class="btn-group">
-							<button class="btn btn-dark" data-method="disable" type="button" title="Disable">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;disable&quot;)">
-												<span class="fa fa-lock"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="enable" type="button" title="Enable">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;enable&quot;)">
-												<span class="fa fa-unlock"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="clear" type="button" title="Clear">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;clear&quot;)">
-												<span class="fa fa-close"></span>
-							  </span>
-							</button>
-							<button class="btn btn-dark" data-method="reset" type="button" title="Reset">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;reset&quot;)">
-												<span class="fa fa-refresh"></span>
-							  </span>
-							</button>
-							<label class="btn btn-dark btn-upload" for="inputImage" title="Upload image file">
-							  <input class="sr-only" id="inputImage" name="file" type="file" accept="image/*">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
-												<span class="fa fa-upload"></span>
-							  </span>
-							</label>
-							<button class="btn btn-dark" data-method="destroy" type="button" title="Destroy">
-							  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;destroy&quot;)">
-												<span class="fa fa-power-off"></span>
-							  </span>
-							</button>
-						  </div>
-
-						  <h2> Image Filter </h2>
-
-						  <div id="ImageFilters">
-							<div class="x_content">
-							  <button id="vintagebtn" type="button" class="btn btn-round btn-default" data-preset="vintage"> Vintage </button>
-							  <button type="button" class="btn btn-round btn-primary"> Lomo </button>
-							  <button type="button" class="btn btn-round btn-success"> Clarity </button>
-							  <button type="button" class="btn btn-round btn-dark"> Sin City </button>
-							</div>
-
-							<div class="x_content">
-							  <button type="button" class="btn btn-round btn-warning"> Sunrise </button>
-							  <button type="button" class="btn btn-round btn-primary"> Cross Process </button>
-							  <button type="button" class="btn btn-round btn-warning"> Orange Peel </button>
-							  <button type="button" class="btn btn-round btn-dark"> Grungy </button>
-							</div>
-
-							<div class="x_content">
-							  <button type="button" class="btn btn-round btn-dark"> Jarques </button>
-							  <button type="button" class="btn btn-round btn-info"> Old Boot </button>
-							  <button type="button" class="btn btn-round btn-warning"> Glowing Sun </button>
-							  <button type="button" class="btn btn-round btn-success"> Hazy Days </button>
-							</div>
-
-							<div class="x_content">
-							  <button type="button" class="btn btn-round btn-default"> Nostalgia </button>
-							  <button type="button" class="btn btn-round btn-info"> Hemingway </button>
-							  <button type="button" class="btn btn-round btn-primary"> Concentrate </button>
-							  <button type="button" class="btn btn-round btn-danger"> Hey Majesty </button>
-							</div>
-						  </div>
-
-						</div>
 					</div>
 
-  					<div class="col-md-4">
-  					  <div class="docs-preview clearfix">
-  						<div class="img-preview preview-lg"></div>
-  						<div class="img-preview preview-md"></div>
-  						<div class="img-preview preview-sm"></div>
-  						<div class="img-preview preview-xs"></div>
-  					  </div>
+					<div class="col-md-6" style="top: 5vw; height: 40vw;">
+					  <div style="text-align: center;">
+						 
+						<h2> Image Filter </h2>
+						<br/>
 
-  					  <div class="docs-data">
-  						<div class="input-group">
-  						  <label class="input-group-addon" for="dataX">X</label>
-  						  <input class="form-control" id="dataX" type="text" placeholder="x">
-  						  <span class="input-group-addon">px</span>
-  						</div>
-  						<div class="input-group">
-  						  <label class="input-group-addon" for="dataY">Y</label>
-  						  <input class="form-control" id="dataY" type="text" placeholder="y">
-  						  <span class="input-group-addon">px</span>
-  						</div>
-  						<div class="input-group">
-  						  <label class="input-group-addon" for="dataWidth">Width</label>
-  						  <input class="form-control" id="dataWidth" type="text" placeholder="width">
-  						  <span class="input-group-addon">px</span>
-  						</div>
-  						<div class="input-group">
-  						  <label class="input-group-addon" for="dataHeight">Height</label>
-  						  <input class="form-control" id="dataHeight" type="text" placeholder="height">
-  						  <span class="input-group-addon">px</span>
-  						</div>
-  					  </div>
+						<div id="ImageFilters">
+							<hr/>
 
-					  <div class="btn-group btn-group-justified" data-toggle="buttons">
-  						<label class="btn btn-dark active" data-method="setAspectRatio" data-option="1.7777777777777777" title="Set Aspect Ratio">
-  						  <input class="sr-only" id="aspestRatio1" name="aspestRatio" value="1.7777777777777777" type="radio">
-  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 16 / 9)">
-  											16:9
-  										  </span>
-  						</label>
-  						<label class="btn btn-dark" data-method="setAspectRatio" data-option="1.3333333333333333" title="Set Aspect Ratio">
-  						  <input class="sr-only" id="aspestRatio2" name="aspestRatio" value="1.3333333333333333" type="radio">
-  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 4 / 3)">
-  											4:3
-  										  </span>
-  						</label>
-  						<label class="btn btn-dark" data-method="setAspectRatio" data-option="1" title="Set Aspect Ratio">
-  						  <input class="sr-only" id="aspestRatio3" name="aspestRatio" value="1" type="radio">
-  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 1 / 1)">
-  											1:1
-  										  </span>
-  						</label>
-  						<label class="btn btn-dark" data-method="setAspectRatio" data-option="0.6666666666666666" title="Set Aspect Ratio">
-  						  <input class="sr-only" id="aspestRatio4" name="aspestRatio" value="0.6666666666666666" type="radio">
-  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, 2 / 3)">
-  											2:3
-  										  </span>
-  						</label>
-  						<label class="btn btn-dark" data-method="setAspectRatio" data-option="NaN" title="Set Aspect Ratio">
-  						  <input class="sr-only" id="aspestRatio5" name="aspestRatio" value="NaN" type="radio">
-  						  <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;setAspectRatio&quot;, NaN)">
-  											Free
-  										  </span>
-  						</label>
-  					  </div>
+						  <div class="x_content">
+							<button id="vintage-btn" type="button" class="btn btn-round btn-default" data-preset="vintage"> Vintage </button>
+							<button id="lomo-btn" type="button" class="btn btn-round btn-primary" data-preset="lomo"> Lomo </button>
+							<button id="clarity-btn" type="button" class="btn btn-round btn-success" data-preset="clarity"> Clarity </button>
+							<button id="sincity-btn" type="button" class="btn btn-round btn-dark" data-preset="sinCity"> Sin City </button>
+						  </div>
 
-  					</div>
+						  <div class="x_content">
+							<button id="sunrise-btn" type="button" class="btn btn-round btn-warning" data-preset="sunrise"> Sunrise </button>
+							<button id="crossprocess-btn" type="button" class="btn btn-round btn-primary" data-preset="crossProcess"> Cross Process </button>
+							<button id="orangepeel-btn" type="button" class="btn btn-round btn-warning" data-preset="orangePeel"> Orange Peel </button>
+							<button id="grungy-btn" type="button" class="btn btn-round btn-dark" data-preset="grungy"> Grungy </button>
+						  </div>
+
+						  <div class="x_content">
+							<button id="jarques-btn" type="button" class="btn btn-round btn-dark" data-preset="jarques"> Jarques </button>
+							<button id="oldboot-btn" type="button" class="btn btn-round btn-info" data-preset="oldBoot"> Old Boot </button>
+							<button id="glowingsun-btn" type="button" class="btn btn-round btn-warning" data-preset="glowingSun"> Glowing Sun </button>
+							<button id="hazydays-btn" type="button" class="btn btn-round btn-success" data-preset="hazyDays"> Hazy Days </button>
+						  </div>
+
+						  <div class="x_content">
+							<button id="nostalgia-btn" type="button" class="btn btn-round btn-default" data-preset="nostalgia"> Nostalgia </button>
+							<button id="hemingway-btn" type="button" class="btn btn-round btn-info" data-preset="hemingway"> Hemingway </button>
+							<button id="concentrate-btn" type="button" class="btn btn-round btn-primary" data-preset="concentrate"> Concentrate </button>
+							<button id="heymajesty-btn" type="button" class="btn btn-round btn-danger" data-preset="herMajesty"> Hey Majesty </button>
+						  </div>
+						</div>
+					  </div>
+
+					</div>
   				  </div>
+
   				  <div class="row">
   					<!-- /.docs-buttons -->
 
@@ -356,7 +242,7 @@
   				  </div>
   				</div>
 
-				<div class="col-md-5 col-sm-12 col-xs-12">
+				<div class="col-md-4 col-sm-12 col-xs-12">
 				  <div class="x_panel" style="text-align: center;">
 					<div class="x_title">
 					  <h2>View Big Image</h2>
@@ -415,7 +301,7 @@
 				  </div>
 				</div>
 
-  				<div class="col-md-4">
+  				<div class="col-md-5">
 
   				  <div class="x_panel">
   					  <div class="x_title">
@@ -444,7 +330,7 @@
 
   				</div>
 
-          <div class="col-md-12">
+          <div class="col-md-12" style="height: 10vw;">
 
   				  <div class="x_panel">
   					  <div class="x_title">
@@ -718,9 +604,6 @@
   <script src="{% static 'js/echart/echarts-all.js' %}"></script>
   <script src="{% static 'js/echart/green.js' %}"></script>
 
-  <!-- image cropping -->
-  <script src="{% static 'js/cropping/cropper.min.js' %}"></script>
-  
   <!-- image picker -->
   <script src="{% static 'js/imagepicker/image-picker.min.js' %}"></script>
 
@@ -729,6 +612,7 @@
 
   <!-- CamanJS -->
   <script src="{% static 'js/caman/caman.full.min.js' %}"></script>
+  <script src="{% static 'js/design/filter.js' %}"></script>
 
   <!-- Custom -->
   <script src="{% static 'js/design/server.js' %}"></script>
