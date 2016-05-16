@@ -67,6 +67,15 @@ $( document ).ready(function() {
 	
 	var Step1 = new StepOne();
 
+	var step1_input = $("#step1_input_text");
+	step1_input.keypress(function(e) {
+		e.preventDefault();
+		if (e.which == 13) {
+			// Enter
+			Step1.scatch();
+		}
+	});
+
 	var scatch_btn = $("#step1_scatch_btn");
 	scatch_btn.click(function(){
 		Step1.scatch();	
@@ -83,11 +92,10 @@ $( document ).ready(function() {
 		}
 	});
 
+	// For Test
 	Caman("#step2_image_canvas", "/static/images/picture2.jpg", function () {
-		// manipulate image here
-		this.brightness(5).render();
+		this.render();
 	});
-
 
 	// Step 2. Edit Detail
 

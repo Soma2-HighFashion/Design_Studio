@@ -43,6 +43,8 @@ StepOne.prototype.scatch = function() {
 					selectedText = imagePath;
 				}
 			});
+
+			$(".image_picker_selector img").width("60");
 		});
 	}
 }
@@ -52,8 +54,9 @@ StepOne.prototype.next = function() {
 	var designedPath = this.designedPath
 	
 	superResoluteImage(selectedText, function(response) {
-		var step2Image = $("#step2_image");
-		step2Image.attr('src', designedPath + response.results);	
+//		Caman("#step2_image_canvas", designedPath + response.results, function () {
+//			this.render();
+//		});
 	});
 
 }

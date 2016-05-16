@@ -6,12 +6,15 @@ from django.http import JsonResponse
 
 # Create your views here.
 def super_resolution(request):
-	super_resolution_path = "/home/dj/HighFashionProject/super_resolution/"
+#	super_resolution_path = "/home/dj/HighFashionProject/super_resolution/"
+	super_resolution_path = "/Users/Dongjun/HighFashionProject/super_resolution"	
 	os.chdir(super_resolution_path)
 
-	generator_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/generator/"
+#	generator_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/generator/"
+	generator_path = "/Users/Dongjun/HighFashionProject/design_studio/static_files/generator/"
 	input_image_uid = str(request.GET['input'])
-	design_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/designed/"
+#	design_path = "/home/dj/HighFashionProject/HighFashionServer/static_files/designed/"
+	design_path = "/Users/Dongjun/HighFashionProject/design_studio/static_files/designed/"
 
 	cmd = "th waifu2x.lua -model_dir models/photo -m scale -i " + generator_path+input_image_uid + " -o " + design_path+input_image_uid 
 	gerenate_image = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
