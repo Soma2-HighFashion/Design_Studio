@@ -54,15 +54,15 @@ StepOne.prototype.next = function() {
 	var designedPath = this.designedPath
 	
 	superResoluteImage(selectedText, function(response) {
-//		Caman("#step2_image_canvas", designedPath + response.results, function () {
-//			this.render();
-//		});
+		Caman("#step2_image_canvas", designedPath + response.results, function () {
+			this.render();
+		});
 	});
 
 }
 
 function StepTwo() {
-
+	this.designedPath = "/static/designed/"
 }
 
 StepTwo.prototype.progress = function() {
@@ -70,11 +70,51 @@ StepTwo.prototype.progress = function() {
 }
 
 StepTwo.prototype.next = function() {
+	var designedPath = this.designedPath
+	
 	var big_image = $("#step3_big_image");
-	big_image.attr('src', selectedText);
+	big_image.attr('src', designedPath + selectedText);
 
 	var circle_image = $("#step3_circle_image");
-	circle_image.attr('src', selectedText);
+	circle_image.attr('src', designedPath + selectedText);
+
+	var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
+    myChart.setOption({
+      tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+      },
+      calculable: true,
+      series: [{
+        name: 'Area Mode',
+        type: 'pie',
+        radius: [25, 90],
+        center: ['50%', 170],
+        roseType: 'area',
+        x: '50%',
+        max: 40,
+        sort: 'ascending',
+        data: [{
+          value: 10,
+          name: 'Street'
+        }, {
+          value: 5,
+          name: 'Casual'
+        }, {
+          value: 15,
+          name: 'Sexy'
+        }, {
+          value: 25,
+          name: 'Unique'
+        }, {
+          value: 20,
+          name: 'Work wear'
+        }, {
+          value: 35,
+          name: 'Classic'
+        }]
+      }]
+    });
 }
 
 function StepThree(nextStep) {

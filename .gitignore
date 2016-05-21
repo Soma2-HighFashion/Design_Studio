@@ -1,4 +1,5 @@
 static_files/
 logs/
 *.swp
+*.swn
 *.pyc

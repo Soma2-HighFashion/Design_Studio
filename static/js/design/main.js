@@ -93,9 +93,9 @@ $( document ).ready(function() {
 	});
 
 	// For Test
-	Caman("#step2_image_canvas", "/static/images/picture2.jpg", function () {
-		this.render();
-	});
+//	Caman("#step2_image_canvas", "/static/images/picture2.jpg", function () {
+//		this.render();
+//	});
 
 	// Step 2. Edit Detail
 
