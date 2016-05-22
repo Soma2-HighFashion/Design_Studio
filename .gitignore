@@ -3,3 +3,4 @@ logs/
 *.swp
 *.swn
 *.pyc
+vgg*

@@ -29,22 +29,27 @@ StepOne.prototype.scatch = function() {
 	} else {
 		inputTextArr.push(textValue);
 		generateImage(function(response) {
-			var scatchImages = $("#step1_scatch_images");
-			scatchImages.append(
-				'<option data-img-label="'+textValue+
-				'"data-img-src="' + generatorPath + response.results + 
-				'" data-img-label="Test" value="'+textValue+
-				'" data-img-uid="' + response.results +
-				'"></option>');	
-			scatchImages.imagepicker({
-				show_label: true,
-				clicked:function(){
-					imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
-					selectedText = imagePath;
-				}
-			});
+			imagePath = response.results;
 
-			$(".image_picker_selector img").width("60");
+			superResoluteNRImage(imagePath, function(response) {
+				var scatchImages = $("#step1_scatch_images");
+				scatchImages.append(
+					'<option data-img-label="'+textValue+
+					'"data-img-src="' + generatorPath + response.results + 
+					'" data-img-label="Test" value="'+textValue+
+					'" data-img-uid="' + response.results +
+					'"></option>');	
+				scatchImages.imagepicker({
+					show_label: true,
+					clicked:function(){
+						imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
+						selectedText = imagePath;
+					}
+				});
+
+				$(".image_picker_selector img").width("60");
+	
+			});
 		});
 	}
 }
@@ -53,7 +58,7 @@ StepOne.prototype.next = function() {
 
 	var designedPath = this.designedPath
 	
-	superResoluteImage(selectedText, function(response) {
+	superResoluteX2Image(selectedText, function(response) {
 		Caman("#step2_image_canvas", designedPath + response.results, function () {
 			this.render();
 		});
@@ -77,6 +82,14 @@ StepTwo.prototype.next = function() {
 
 	var circle_image = $("#step3_circle_image");
 	circle_image.attr('src', designedPath + selectedText);
+
+	classifyGenderImage(selectedText, function(response) {
+		alert("Gender : " + response.results);
+	});
+
+	classifyCategoryImage(selectedText, function(response) {
+		alert("Category : " + response.results);
+	});
 
 	var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
     myChart.setOption({

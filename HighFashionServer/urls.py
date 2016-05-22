@@ -21,7 +21,7 @@ from django.contrib import admin
 from rest_framework import routers
 from home.views import index, design
 from generator.views import generator
-from super_resolution.views import super_resolution
+from super_resolution.views import super_resolution_x2, super_resolution_nr
 from image_analysis.views import classify_gender, classify_category
 	 
 router = routers.DefaultRouter()
@@ -33,7 +33,8 @@ urlpatterns = [
 	url(r'^$', index, name='index'),
 	url(r'^design$', design, name='design'),
 	url(r'^generator$', generator, name='generator'),
-	url(r'^super_resolution$', super_resolution, name='super_resolution'),
+	url(r'^super_resolution_x2$', super_resolution_x2, name='super_resolution_x2'),
+	url(r'^super_resolution_nr$', super_resolution_nr, name='super_resolution_nr'),
 	url(r'^classify_gender$', classify_gender, name='classify_gender'),
 	url(r'^classify_category$', classify_category, name='classify_category'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
