@@ -8,7 +8,7 @@ import numpy as np
 
 GEOMETRY = (256, 84)
 PATCH_GEOMETRY = (84, 84)
-PATCH_COUNT = 25
+PATCH_COUNT = 20
 
 def load_gender_dataset():
     # Return dataset - numpy array, label

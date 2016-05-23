@@ -83,7 +83,8 @@ StepTwo.prototype.next = function() {
 	var circle_image = $("#step3_circle_image");
 	circle_image.attr('src', designedPath + selectedText);
 
-	var patchCount = 25
+	var patchCount = 20;
+	var ratio = 100/patchCount;
 	classifyGenderImage(selectedText, function(response) {
 		var female = 0; var male = 0
 		response.results.forEach(function(item, index) {
@@ -91,8 +92,8 @@ StepTwo.prototype.next = function() {
 			male += item[1];
 		});
 		
-		female = Math.round(female*4);
-		male = Math.round(male*4);
+		female = Math.round(female*ratio);
+		male = Math.round(male*ratio);
 
 		var femaleProgressBar = $("#classify_gender_female");
 		femaleProgressBar.progressbar({
@@ -111,61 +112,61 @@ StepTwo.prototype.next = function() {
 		maleProgressBarValue.css({
 			"background": '#438C56'
 		});
+
+		setTimeout(function(){
+
+			classifyCategoryImage(selectedText, function(response) {
+				category = [0, 0, 0, 0, 0, 0];
+				response.results.forEach(function(item, index) {
+					for(var i=0; i<6; i++) {
+						category[i] += item[i];
+					}
+				});
+
+				category.forEach(function(item, index) {
+					category[index] = Math.round(item*ratio);
+				});
+
+				console.log(category);
+
+				var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
+				myChart.setOption({
+				  tooltip: {
+					trigger: 'item',
+					formatter: "{a} <br/>{b} : {c} ({d}%)"
+				  },
+				  calculable: true,
+				  polar : [
+					{
+					  indicator : [
+						{text : 'Street', max  : 100},
+						{text : 'Casual', max  : 100},
+						{text : 'Sexy', max  : 100},
+						{text : 'Unique', max  : 100},
+						{text : 'Work wear', max  : 100},
+						{text : 'Classic', max  : 100}
+					  ],
+					  radius : 130
+					}
+				  ],
+				  series: [{
+					name: 'Area Mode',
+					type: 'radar',
+					data: [
+					  {
+						value : category,
+						name : "category"
+					  }
+					]
+				  }]
+				});
+			});
+
+		}, 2000);
+		
 	});
 
-//	classifyCategoryImage(selectedText, function(response) {
-//		category = [0, 0, 0, 0, 0, 0];
-//		response.results.forEach(function(item, index) {
-//			for(var i=0; i<6; i++) {
-//				category[i] += item[i];
-//			}
-//		});
-//
-//		category.forEach(function(item, index) {
-//			category[index] = Math.round(item*4);
-//		});
-//
-//		console.log(category);
-//
-//		var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
-//		myChart.setOption({
-//		  tooltip: {
-//			trigger: 'item',
-//			formatter: "{a} <br/>{b} : {c} ({d}%)"
-//		  },
-//		  calculable: true,
-//		  series: [{
-//			name: 'Area Mode',
-//			type: 'pie',
-//			radius: [25, 90],
-//			center: ['50%', 170],
-//			roseType: 'area',
-//			x: '50%',
-//			max: 100,
-//			sort: 'ascending',
-//			data: [{
-//			  value: category[0],
-//			  name: 'Street'
-//			}, {
-//			  value: category[1],
-//			  name: 'Casual'
-//			}, {
-//			  value: category[2],
-//			  name: 'Sexy'
-//			}, {
-//			  value: category[3],
-//			  name: 'Unique'
-//			}, {
-//			  value: category[4],
-//			  name: 'Work wear'
-//			}, {
-//			  value: category[5],
-//			  name: 'Classic'
-//			}]
-//		  }]
-//		});
-//	});
-
+	
 }
 
 function StepThree(nextStep) {
