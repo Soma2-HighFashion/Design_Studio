@@ -22,11 +22,11 @@ StepOne.prototype.scatch = function() {
 	var textValue = $("#step1_input_text").val();
 	var generatorPath = this.generatorPath
 
-	if (textValue == "") {
-		alert("Insert Text!");
-	} else if (inputTextArr.includes(textValue)) {
-		alert("Duplicate Text!");
-	} else {
+//	if (textValue == "") {
+//		alert("Insert Text!");
+//	} else if (inputTextArr.includes(textValue)) {
+//		alert("Duplicate Text!");
+//	} else {
 		inputTextArr.push(textValue);
 		generateImage(function(response) {
 			imagePath = response.results;
@@ -51,7 +51,7 @@ StepOne.prototype.scatch = function() {
 	
 			});
 		});
-	}
+//	}
 }
 
 StepOne.prototype.next = function() {
@@ -162,7 +162,7 @@ StepTwo.prototype.next = function() {
 				});
 			});
 
-		}, 2000);
+		}, 3000);
 		
 	});
 

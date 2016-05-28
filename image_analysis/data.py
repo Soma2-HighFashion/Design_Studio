@@ -6,9 +6,9 @@ import os
 from PIL import Image
 import numpy as np
 
-GEOMETRY = (256, 84)
-PATCH_GEOMETRY = (84, 84)
-PATCH_COUNT = 20
+GEOMETRY = (128, 42)
+PATCH_GEOMETRY = (42, 42)
+PATCH_COUNT = 50
 
 def load_gender_dataset():
     # Return dataset - numpy array, label
