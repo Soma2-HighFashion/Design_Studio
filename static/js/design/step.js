@@ -22,13 +22,13 @@ StepOne.prototype.scatch = function() {
 	var textValue = $("#step1_input_text").val();
 	var generatorPath = this.generatorPath
 
-//	if (textValue == "") {
-//		alert("Insert Text!");
-//	} else if (inputTextArr.includes(textValue)) {
-//		alert("Duplicate Text!");
-//	} else {
-		inputTextArr.push(textValue);
+	if (textValue == "") {
+		alert("Insert Text!");
+	} else if (inputTextArr.includes(textValue)) {
+		alert("Duplicate Text!");
+	} else {
 		generateImage(function(response) {
+			inputTextArr.push(textValue);
 			imagePath = response.results;
 
 			superResoluteNRImage(imagePath, function(response) {
@@ -47,11 +47,11 @@ StepOne.prototype.scatch = function() {
 					}
 				});
 
-				$(".image_picker_selector img").width("60");
+				$(".image_picker_selector img").width("50");
 	
 			});
 		});
-//	}
+	}
 }
 
 StepOne.prototype.next = function() {

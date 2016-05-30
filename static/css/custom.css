@@ -3841,7 +3841,7 @@ ul.project_files li a i {
 /* *********  media gallery  **************************** */
 
 .thumbnail .image {
-  height: 120px;
+  height: 256px;
   overflow: hidden;
 }
 .caption {
@@ -3864,6 +3864,7 @@ ul.project_files li a i {
 .view .mask, .view .content {
   position: absolute;
   width: 100%;
+  height: 100%;
   overflow: hidden;
   top: 0;
   left: 0
@@ -3879,8 +3880,8 @@ ul.project_files li a i {
   position: relative;
   font-size: 17px;
   padding: 3px;
-  background: rgba(0, 0, 0, 0.35);
-  margin: 43px 0 0 0;
+  background: rgba(0, 0, 0, 0.20);
+  margin: 170px 0 0 0;
 }
 .mask.no-caption .tools {
   margin: 90px 0 0 0;
@@ -3915,7 +3916,7 @@ ul.project_files li a i {
 }
 .view-first .mask {
   opacity: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.15);
   transition: all 0.4s ease-in-out;
 }
 .view-first .tools {

@@ -22,7 +22,7 @@ from rest_framework import routers
 from home.views import index, design
 from generator.views import generator
 from super_resolution.views import super_resolution_x2, super_resolution_nr
-from image_analysis.views import classify_gender, classify_category, classify_discriminator
+from image_analysis.views import classify_fashion, classify_discriminator, search_neighbors
 	 
 router = routers.DefaultRouter()
 
@@ -35,9 +35,9 @@ urlpatterns = [
 	url(r'^generator$', generator, name='generator'),
 	url(r'^super_resolution_x2$', super_resolution_x2, name='super_resolution_x2'),
 	url(r'^super_resolution_nr$', super_resolution_nr, name='super_resolution_nr'),
-	url(r'^classify_gender$', classify_gender, name='classify_gender'),
-	url(r'^classify_category$', classify_category, name='classify_category'),
 	url(r'^classify_discriminator$', classify_discriminator, name='classify_discriminator'),
+	url(r'^classify_fashion$', classify_fashion, name='classify_fashion'),
+	url(r'^search_neighbors$', search_neighbors, name='search_neighbors'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
 ]
 

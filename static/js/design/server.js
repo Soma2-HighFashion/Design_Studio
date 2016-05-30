@@ -33,7 +33,7 @@ function commonAjaxFunction(urlStr, callBack, callbackParam) {
 			callBack(response, callbackParam);
 		},
 		error : function() {
-		
+			alert("오류가 발생하였습니다. 다시 한 번 입력해주세요");	
 		},
 
 	});

@@ -23,8 +23,8 @@ def generator(request):
 								stdout=PIPE, stderr=STDOUT, close_fds=True)
 
 		f_name = os.path.basename(generate_image.stdout.read()).strip()
-		generate_path = "/home/dj/HighFashionProject/design_studio/static_files/generator/"	
-		pred_y = classify_discriminator(generate_path + f_name)
+		
+		pred_y = classify_discriminator(f_name)
 		good_count = 0; bad_count = 0
 
 		for y in pred_y:
