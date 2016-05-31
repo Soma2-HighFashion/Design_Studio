@@ -2403,12 +2403,16 @@ input.parsley-error, textarea.parsley-error, select.parsley-error {
   background-color: #fafafa;
   font-size: 12px;
 }
+.btn.btn-app.clicked {
+  background-color: #BCBCBC;
+}
+
 .btn.btn-app > .fa, .btn.btn-app > .glyphicon, .btn.btn-app > .ion {
   font-size: 20px;
   display: block;
 }
 .btn.btn-app:hover {
-  background: #f4f4f4;
+  background: #DCDCDC;
   color: #444;
   border-color: #aaa;
 }

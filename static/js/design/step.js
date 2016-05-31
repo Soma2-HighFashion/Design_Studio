@@ -17,10 +17,17 @@ function StepOne() {
 	this.designedPath = "/static/designed/"
 }
 
-StepOne.prototype.scatch = function() {
+StepOne.prototype.scatch = function(inputText) {	
 
-	var textValue = $("#step1_input_text").val();
-	var generatorPath = this.generatorPath
+	var textValue = ""
+
+	if (inputText == undefined) {
+		textValue = $("#step1_input_text").val();
+	} else {
+		textValue = inputText;
+	}
+
+	var generatorPath = this.generatorPath;
 
 	if (textValue == "") {
 		alert("Insert Text!");
@@ -48,7 +55,7 @@ StepOne.prototype.scatch = function() {
 				});
 
 				$(".image_picker_selector img").width("50");
-	
+				
 			});
 		});
 	}
