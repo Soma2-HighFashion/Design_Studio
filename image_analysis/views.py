@@ -30,21 +30,20 @@ def classify_discriminator(image_fname):
 	end_index = pred_y.index(']]') + 2
 	return json.loads(pred_y[start_index:end_index])
 
-def classify_fashion(request):
+def classify_fashion(image_fname):
 	image_analysis_path = "/home/dj/HighFashionProject/image_analysis/"
 	os.chdir(image_analysis_path)
 
 	generator_path = "/home/dj/HighFashionProject/design_studio/static_files/generator/"
-	input_image_uid = str(request.GET['input'])
 
-	cmd = ("python test_analysis.py --t "+ generator_path + input_image_uid)
+	cmd = ("python test_analysis.py --t "+ generator_path + image_fname)
 	classify_image = Popen(cmd, shell=True, stdin=PIPE, 
 							stdout=PIPE, stderr=STDOUT, close_fds=True)
 	pred_y = classify_image.stdout.read()
 
 	start_index = pred_y.index("[[")
 	end_index = pred_y.index("]]") + 2
-	return JsonResponse({ "results": json.loads(pred_y[start_index:end_index]) })
+	return json.loads(pred_y[start_index:end_index])
 
 def search_neighbors(request):
 	desinged_path = "/home/dj/HighFashionProject/design_studio/static_files/designed/"	
