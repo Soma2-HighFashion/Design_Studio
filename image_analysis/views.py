@@ -64,7 +64,7 @@ def search_neighbors(request):
 	_, indices = lshf.kneighbors(test_X, n_neighbors=num)
 
 	return JsonResponse({
-			"results": indices
-			})
+		"results": indices
+	})
 
 	

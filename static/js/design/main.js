@@ -43,17 +43,6 @@ $( document ).ready(function() {
 		});
 	}
 
-	var step1_plus_btn = $("#step1_image_plus");
-	var step1_minus_btn = $("#step1_image_minus");
-	
-	step1_plus_btn.click(function(){
-		$(this).focus();		
-	});
-
-	step1_minus_btn.click(function(){
-		$(this).focus();
-	});
-
 	// init
 	nav.click();
 	progress_on(step1_ui);
