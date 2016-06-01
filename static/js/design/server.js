@@ -20,6 +20,10 @@ function classifyCategoryImage(params, uiCallBackFunc) {
 	commonAjaxFunction("classify_category?input=" + params, uiCallBackFunc);
 }
 
+function translateKo2En(params, uiCallBackFunc) {
+	commonAjaxFunction("translate?text=" + params, uiCallBackFunc);
+}
+
 function commonAjaxFunction(urlStr, callBack, callbackParam) {
 
 	var callUrl = ctxPath + urlStr;

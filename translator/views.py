@@ -1,14 +1,15 @@
 import requests
 import urllib
 
+from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 
 # Create your views here.
 def translate(request):
 	naver_api = "https://openapi.naver.com/v1/language/translate"
-	client_id = "mInBhy5qJvHGe4olYpq0"
-	client_secret = "vSB7DszOPY"
+	client_id = settings.CLIENT_ID
+	client_secret = settings.CLIENT_SECRET
 
 	headers = {
 		'X-Naver-Client-Id': client_id,
@@ -26,7 +27,5 @@ def translate(request):
 	
 	r = requests.post(naver_api, data=params, headers=headers)
 
-	return JsonResponse(
-		{'results' : r.text}
-	)
+	return JsonResponse(r.json())
 

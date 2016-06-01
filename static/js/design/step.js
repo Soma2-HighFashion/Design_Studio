@@ -23,6 +23,9 @@ StepOne.prototype.scatch = function(inputText) {
 
 	if (inputText == undefined) {
 		textValue = $("#step1_input_text").val();
+		translateKo2En(textValue, function(response) {
+			console.log(response.message.result.translatedText);
+		});
 	} else {
 		textValue = inputText;
 	}

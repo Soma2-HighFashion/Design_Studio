@@ -5,3 +5,4 @@ logs/
 *.pyc
 vgg*
 discriminator_model-78000*
+HighFashionServer/settings.py
