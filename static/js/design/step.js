@@ -23,9 +23,6 @@ StepOne.prototype.scatch = function(inputText) {
 
 	if (inputText == undefined) {
 		textValue = $("#step1_input_text").val();
-		translateKo2En(textValue, function(response) {
-			console.log(response.message.result.translatedText);
-		});
 	} else {
 		textValue = inputText;
 	}
@@ -37,7 +34,7 @@ StepOne.prototype.scatch = function(inputText) {
 	} else if (inputTextArr.includes(textValue)) {
 		alert("Duplicate Text!");
 	} else {
-		generateImage(function(response) {
+		generateImage(textValue, function(response) {
 			inputTextArr.push(textValue);
 			imagePath = response.results;
 

@@ -29,7 +29,7 @@ def classify_discriminator(image_fname):
 	return json.loads(pred_y[start_index:end_index])
 
 def classify_fashion(image_fname):
-	os.chdir(image_analysis_path)
+	os.chdir(settings.IMAGE_ANALYSIS_PATH)
 
 	cmd = ("python test_analysis.py --t "+ settings.GENERATOR_PATH + image_fname)
 	classify_image = Popen(cmd, shell=True, stdin=PIPE, 

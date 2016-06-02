@@ -23,7 +23,6 @@ from home.views import index, design
 from generator.views import generator
 from super_resolution.views import super_resolution_x2, super_resolution_nr
 from image_analysis.views import classify_fashion, classify_discriminator, search_neighbors
-from translator.views import translate
 	 
 router = routers.DefaultRouter()
 
@@ -38,7 +37,6 @@ urlpatterns = [
 	url(r'^super_resolution_nr$', super_resolution_nr, name='super_resolution_nr'),
 	url(r'^classify_discriminator$', classify_discriminator, name='classify_discriminator'),
 	url(r'^classify_fashion$', classify_fashion, name='classify_fashion'),
-	url(r'^translate$', translate, name='translate'),
 	url(r'^search_neighbors$', search_neighbors, name='search_neighbors'),
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT} ),
 ]

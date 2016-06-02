@@ -1,7 +1,7 @@
 ctxPath = "" 
 
-function generateImage(uiCallBackFunc) {
-	commonAjaxFunction("generator", uiCallBackFunc);
+function generateImage(params, uiCallBackFunc) {
+	commonAjaxFunction("generator?text=" + params, uiCallBackFunc);
 }
 
 function superResoluteX2Image(params, uiCallBackFunc) {
@@ -18,10 +18,6 @@ function classifyGenderImage(params, uiCallBackFunc) {
 
 function classifyCategoryImage(params, uiCallBackFunc) {
 	commonAjaxFunction("classify_category?input=" + params, uiCallBackFunc);
-}
-
-function translateKo2En(params, uiCallBackFunc) {
-	commonAjaxFunction("translate?text=" + params, uiCallBackFunc);
 }
 
 function commonAjaxFunction(urlStr, callBack, callbackParam) {
