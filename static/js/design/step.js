@@ -116,7 +116,10 @@ StepTwo.prototype.next = function() {
 	});
 
 	var maxValue = Math.max.apply(null, predCategory);
-	console.log(predCategory, maxValue);
+	if (maxValue < 0.6) {
+		maxValue += 0.2
+	}
+
 	var myChart = echarts.init(document.getElementById('analysis_raidor_chart'), theme);
 	myChart.setOption({
 	  tooltip: {

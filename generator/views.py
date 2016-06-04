@@ -80,6 +80,10 @@ def find_best_image(good_img_list, pred_fashion,
 	print "classifier Gender:", gender_classifier
 	print "classifier Category:,", category_classifier
 
+	is_category_focused = False
+	if max(category_classifier) > settings.CATEGORY_THRESHOLD:
+		is_category_focused = True
+
 	f_patch_count = settings.F_PATCH_COUNT
 	best_image_index = 0
 	best_image_gender = 0
@@ -115,7 +119,12 @@ def find_best_image(good_img_list, pred_fashion,
 		print "No.", i, "pred Gender:", pred_gender
 		print "No.", i, "pred Category:", pred_category
 
-		diff = get_dist(gender_classifier, pred_gender) + get_dist(category_classifier, pred_category)
+		if is_category_focused:
+			category_index = category_classifier.index(max(category_classifier))
+			diff = 1 - pred_category[category_index]
+		else:
+			diff = (euclidean(gender_classifier, pred_gender) + 
+					euclidean(category_classifier, pred_category))
 
 		print "diff:", diff
 
@@ -125,12 +134,12 @@ def find_best_image(good_img_list, pred_fashion,
 			best_image_category = pred_category
 			best_diff = diff
 
-	best_image_gender = map(lambda x: round(x, 2), list(best_image_gender))
-	best_image_category = map(lambda x: round(x, 2), list(best_image_category))
+	best_image_gender = map(lambda x: round(x, 3), list(best_image_gender))
+	best_image_category = map(lambda x: round(x, 3), list(best_image_category))
 
 	return best_image_index, best_image_gender, best_image_category
 
-def get_dist(x, y):
+def euclidean(x, y):
 	return np.sqrt(np.sum((x-y)**2))
 
 def crop_image_and_save(index, f_name):
