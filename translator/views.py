@@ -36,10 +36,11 @@ def translate(input_text):
 
 	return translated_text
 
-print("Load Word2Vec Pre-trained model")
-w2v_model = Word2Vec.load_word2vec_format(
-		settings.WORD2VEC_PATH + 'pre-trained/GoogleNews-vectors-negative300.bin.gz', binary=True)
-print("Load Complete!")
+if not settings.DEBUG:
+	print("Load Word2Vec Pre-trained model")
+	w2v_model = Word2Vec.load_word2vec_format(
+			settings.WORD2VEC_PATH + 'pre-trained/GoogleNews-vectors-negative300.bin.gz', binary=True)
+	print("Load Complete!")
 
 def analysis_word2vec(input_text):
 	clean_list = text_to_word(input_text)

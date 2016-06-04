@@ -17,7 +17,6 @@ from translator.views import translate, analysis_word2vec
 # Create your views here.
 def generator(request):
 	input_text = urllib.unquote(request.GET['text'])
-	translated_text = translate(input_text)
 
 	os.chdir(settings.DCGAN_PATH)
 	image_uid = str(uuid.uuid4())
@@ -32,14 +31,23 @@ def generator(request):
 	#  Find Best Image with Word2Vec  - Gender and Category
 
 	pred_fashion = classify_fashion(f_name)
-	best_index = find_best_image(good_img_list, pred_fashion, analysis_word2vec(translated_text))
+	
+	if settings.DEBUG:
+		translated_text = ""
+		best_index, gender, category = find_best_image(good_img_list, pred_fashion)
+	else:
+		translated_text = translate(input_text)
+		best_index, gender, category = find_best_image(
+				good_img_list, pred_fashion, analysis_word2vec(translated_text))
 
 	# Crop Best Image
 	crop_image_and_save(best_index, f_name)
 
-	return JsonResponse(
-		{'results' : f_name}
-	)
+	return JsonResponse({
+		'results' : f_name,
+		'gender' : list(gender),
+		'category' : list(category)
+	})
 
 def generate_random_image(image_uid):
 	cmd = ("gpu=0 noise=normal name="+image_uid+ " batchSize=" + str(settings.G_COUNT) +
@@ -65,7 +73,8 @@ def classify_good_generated(pred_y):
 	print good_img_list
 	return good_img_list	
 
-def find_best_image(good_img_list, pred_fashion, analysis_word2vec):
+def find_best_image(good_img_list, pred_fashion, 
+					analysis_word2vec=(np.array([0,0]), np.array([0,0,0,0,0]))):
 	gender_classifier, category_classifier = analysis_word2vec
 
 	print "classifier Gender:", gender_classifier
@@ -73,6 +82,8 @@ def find_best_image(good_img_list, pred_fashion, analysis_word2vec):
 
 	f_patch_count = settings.F_PATCH_COUNT
 	best_image_index = 0
+	best_image_gender = 0
+	best_image_category = 0
 	best_diff = 1000
 
 	for i in good_img_list:
@@ -83,6 +94,7 @@ def find_best_image(good_img_list, pred_fashion, analysis_word2vec):
 		for j in range(i*f_patch_count, (i+1)*f_patch_count):
 			female_count += sum(pred_fashion[j][0:5])
 			male_count += sum(pred_fashion[j][5:])
+
 			street_count += (pred_fashion[j][0] + pred_fashion[j][5])
 			casual_count += (pred_fashion[j][1] + pred_fashion[j][6])
 			classic_count += (pred_fashion[j][2] + pred_fashion[j][7])
@@ -90,12 +102,14 @@ def find_best_image(good_img_list, pred_fashion, analysis_word2vec):
 			sexy_count += pred_fashion[j][4]
 
 		pred_gender = np.array([
-				female_count/f_patch_count, male_count/f_patch_count
+				female_count/f_patch_count, male_count / f_patch_count
 				], dtype="float32")
 		pred_category = np.array([
-				street_count/f_patch_count, casual_count/f_patch_count,
-				classic_count/f_patch_count, unique_count/f_patch_count,
-				sexy_count/f_patch_count
+				street_count*settings.STREET_WEIGHT / f_patch_count, 
+				casual_count*settings.CASUAL_WEIGHT / f_patch_count,
+				classic_count*settings.CLASSIC_WEIGHT / f_patch_count, 
+				unique_count*settings.UNIQUE_WEIGHT / f_patch_count,
+				sexy_count*settings.SEXY_WEIGHT / f_patch_count
 				], dtype="float32")
 
 		print "No.", i, "pred Gender:", pred_gender
@@ -107,9 +121,14 @@ def find_best_image(good_img_list, pred_fashion, analysis_word2vec):
 
 		if diff < best_diff:
 			best_image_index = i
+			best_image_gender = pred_gender
+			best_image_category = pred_category
 			best_diff = diff
 
-	return best_image_index
+	best_image_gender = map(lambda x: round(x, 2), list(best_image_gender))
+	best_image_category = map(lambda x: round(x, 2), list(best_image_category))
+
+	return best_image_index, best_image_gender, best_image_category
 
 def get_dist(x, y):
 	return np.sqrt(np.sum((x-y)**2))

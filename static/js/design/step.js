@@ -12,6 +12,9 @@ function progress_off(step) {
 	li.removeClass("current-page");
 }
 
+predGender = [];
+predCategory = [];
+
 function StepOne() {
 	this.generatorPath = "/static/generator/"
 	this.designedPath = "/static/designed/"
@@ -37,6 +40,8 @@ StepOne.prototype.scatch = function(inputText) {
 		generateImage(textValue, function(response) {
 			inputTextArr.push(textValue);
 			imagePath = response.results;
+			predGender = response.gender;
+			predCategory = response.category;
 
 			superResoluteNRImage(imagePath, function(response) {
 				var scatchImages = $("#step1_scatch_images");
@@ -90,90 +95,56 @@ StepTwo.prototype.next = function() {
 	var circle_image = $("#step3_circle_image");
 	circle_image.attr('src', designedPath + selectedText);
 
-	var patchCount = 20;
-	var ratio = 100/patchCount;
-	classifyGenderImage(selectedText, function(response) {
-		var female = 0; var male = 0
-		response.results.forEach(function(item, index) {
-			female += item[0];
-			male += item[1];
-		});
-		
-		female = Math.round(female*ratio);
-		male = Math.round(male*ratio);
+	ratio = 100;
 
-		var femaleProgressBar = $("#classify_gender_female");
-		femaleProgressBar.progressbar({
-			value: female
-		});
-		var femaleProgressBarValue = femaleProgressBar.find(".ui-progressbar-value");
-		femaleProgressBarValue.css({
-			"background": '#C08080'
-		});
-		
-		var maleProgressBar = $("#classify_gender_male");
-		maleProgressBar.progressbar({
-			value: male
-		});
-		var maleProgressBarValue = maleProgressBar.find(".ui-progressbar-value");
-		maleProgressBarValue.css({
-			"background": '#438C56'
-		});
-
-		setTimeout(function(){
-
-			classifyCategoryImage(selectedText, function(response) {
-				category = [0, 0, 0, 0, 0, 0];
-				response.results.forEach(function(item, index) {
-					for(var i=0; i<6; i++) {
-						category[i] += item[i];
-					}
-				});
-
-				category.forEach(function(item, index) {
-					category[index] = Math.round(item*ratio);
-				});
-
-				console.log(category);
-
-				var myChart = echarts.init(document.getElementById('echart_pie2'), theme);
-				myChart.setOption({
-				  tooltip: {
-					trigger: 'item',
-					formatter: "{a} <br/>{b} : {c} ({d}%)"
-				  },
-				  calculable: true,
-				  polar : [
-					{
-					  indicator : [
-						{text : 'Street', max  : 100},
-						{text : 'Casual', max  : 100},
-						{text : 'Sexy', max  : 100},
-						{text : 'Unique', max  : 100},
-						{text : 'Work wear', max  : 100},
-						{text : 'Classic', max  : 100}
-					  ],
-					  radius : 130
-					}
-				  ],
-				  series: [{
-					name: 'Area Mode',
-					type: 'radar',
-					data: [
-					  {
-						value : category,
-						name : "category"
-					  }
-					]
-				  }]
-				});
-			});
-
-		}, 3000);
-		
+	var femaleProgressBar = $("#classify_gender_female");
+	femaleProgressBar.progressbar({
+		value: predGender[0] * ratio
+	});
+	var femaleProgressBarValue = femaleProgressBar.find(".ui-progressbar-value");
+	femaleProgressBarValue.css({
+		"background": '#C08080'
+	});
+	
+	var maleProgressBar = $("#classify_gender_male");
+	maleProgressBar.progressbar({
+		value: predGender[1] * ratio
+	});
+	var maleProgressBarValue = maleProgressBar.find(".ui-progressbar-value");
+	maleProgressBarValue.css({
+		"background": '#438C56'
 	});
 
-	
+	var myChart = echarts.init(document.getElementById('analysis_raidor_chart'), theme);
+	myChart.setOption({
+	  tooltip: {
+		trigger: 'item',
+		formatter: "{a} <br/>{b} : {c} ({d}%)"
+	  },
+	  calculable: true,
+	  polar : [
+		{
+		  indicator : [
+			{text : 'Street', max  : 0.7},
+			{text : 'Casual', max  : 0.7},
+			{text : 'Classic', max  : 0.7},
+			{text : 'Unique', max  : 0.7},
+			{text : 'Sexy', max  : 0.7}
+		  ],
+		  radius : 130
+		}
+	  ],
+	  series: [{
+		name: 'Area Mode',
+		type: 'radar',
+		data: [
+		  {
+			value : predCategory,
+			name : "category"
+		  }
+		]
+	  }]
+	});
 }
 
 function StepThree(nextStep) {
