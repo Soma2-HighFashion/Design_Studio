@@ -44,22 +44,26 @@ def search_neighbors(request):
 	image_list = os.listdir(settings.DESIGN_PATH)
 
 	d_geometry = settings.D_GEOMETRY
-	train_X = np.empty((len(image_list), d_geometry[0]*d_geometry[1]*3), dtype="float32")
+	designed_images = np.empty((len(image_list), d_geometry[0]*d_geometry[1]*3), dtype="float32")
 	for i in range(len(image_list)):
-		train_X[i] = img2numpy_arr(desinged_path + image_list[i]).reshape(d_geometry[0]*d_geometry[1]*3)
-	train_X /= 255
+		designed_images[i] = img2numpy_arr(settings.DESIGN_PATH + image_list[i]).reshape(d_geometry[0]*d_geometry[1]*3)
+	designed_images /= 255
 	
 	lshf = LSHForest(random_state=42)
-	lshf.fit(train_X) 
+	lshf.fit(designed_images) 
 
 	num = int(request.GET['num'])
-	test_fname = str(request.GET['input'])
-	test_X = img2numpy_arr(settings.DESIGN_PATH + test_fname)
-	test_X = test_X.reshape(1, -1)/255
-	_, indices = lshf.kneighbors(test_X, n_neighbors=num)
+	input_fname = str(request.GET['input'])
+	input_image = img2numpy_arr(settings.DESIGN_PATH + input_fname)
+	input_image = input_image.reshape(1, -1)/255
+	_, indices = lshf.kneighbors(input_image, n_neighbors=num)
+
+	similar_images = []
+	for i in list(indices.reshape(-1)):
+		similar_images.append(image_list[i])
 
 	return JsonResponse({
-		"results": indices
+		"results": similar_images
 	})
 
 	

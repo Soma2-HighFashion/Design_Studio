@@ -98,7 +98,7 @@ $( document ).ready(function() {
 		$.fn.fullpage.moveSectionDown();
 	});
 
-	// Step 3. Design
+	// Step 3. Design -> Similar Fashions
 
 	var Step3 = new StepThree(step4_ui);
 	//Step3.progress();
@@ -109,11 +109,6 @@ $( document ).ready(function() {
 
 		$.fn.fullpage.moveSectionDown();
 	});
-
-	// Step 4. Similar Fashion
-
-	var Step4 = new StepFour();
-	//Step4.progress();
 
 });
 

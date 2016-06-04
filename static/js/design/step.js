@@ -115,6 +115,8 @@ StepTwo.prototype.next = function() {
 		"background": '#438C56'
 	});
 
+	var maxValue = Math.max.apply(null, predCategory);
+	console.log(predCategory, maxValue);
 	var myChart = echarts.init(document.getElementById('analysis_raidor_chart'), theme);
 	myChart.setOption({
 	  tooltip: {
@@ -125,11 +127,11 @@ StepTwo.prototype.next = function() {
 	  polar : [
 		{
 		  indicator : [
-			{text : 'Street', max  : 0.7},
-			{text : 'Casual', max  : 0.7},
-			{text : 'Classic', max  : 0.7},
-			{text : 'Unique', max  : 0.7},
-			{text : 'Sexy', max  : 0.7}
+			{text : 'Street', max  : maxValue},
+			{text : 'Casual', max  : maxValue},
+			{text : 'Classic', max  : maxValue},
+			{text : 'Unique', max  : maxValue},
+			{text : 'Sexy', max  : maxValue}
 		  ],
 		  radius : 130
 		}
@@ -156,7 +158,29 @@ StepThree.prototype.progress = function() {
 }
 
 StepThree.prototype.next = function() {
+	searchNeighbors(selectedText, function(response) {
 
+		var target = $("#similar-fashions");
+		target.text("");
+
+		var tagStr = "";
+		var simImages = response.results;
+		simImages.forEach(function(item, index) {
+			tagStr += '<div class="col-md-2">';
+			tagStr += '  <div class="thumbnail">';
+			tagStr += '    <div class="image view view-first">';
+			tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item + '" alt="image" />';
+			tagStr += '      <div class="mask">';
+			tagStr += '        <div class="tools tools-bottom">';
+			tagStr += '          <p>Your Text</p>';
+			tagStr += '        </div>';
+			tagStr += '      </div>';
+			tagStr += '    </div>';
+			tagStr += '  </div>';
+			tagStr += '</div>';
+		});
+		target.html(tagStr);
+	});
 }
 
 function StepFour(nextStep) {

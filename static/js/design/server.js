@@ -12,12 +12,8 @@ function superResoluteNRImage(params, uiCallBackFunc) {
 	commonAjaxFunction("super_resolution_nr?input=" + params, uiCallBackFunc);
 }
 
-function classifyGenderImage(params, uiCallBackFunc) {
-	commonAjaxFunction("classify_gender?input=" + params, uiCallBackFunc);
-}
-
-function classifyCategoryImage(params, uiCallBackFunc) {
-	commonAjaxFunction("classify_category?input=" + params, uiCallBackFunc);
+function searchNeighbors(params, uiCallBackFunc) {
+	commonAjaxFunction("search_neighbors?num=12&input=" + params, uiCallBackFunc);
 }
 
 function commonAjaxFunction(urlStr, callBack, callbackParam) {
