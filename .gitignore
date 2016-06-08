@@ -7,4 +7,4 @@ logs/
 vgg*
 discriminator_model-78000*
 HighFashionServer/settings.py
-
+generator/migrations/

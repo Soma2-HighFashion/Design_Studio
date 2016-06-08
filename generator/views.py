@@ -10,11 +10,21 @@ import numpy as np
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework import viewsets, renderers, filters
 
+from generator.models import Image
+from generator.serializer import ImageSerializer
 from image_analysis.views import classify_discriminator, classify_fashion 
 from translator.views import translate, analysis_word2vec
 
 # Create your views here.
+class ImageViewSet(viewsets.ModelViewSet):
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('id', 'text', 'gender', 'category', 'uid', 'history', 'filterd', 'like')
+
+	queryset = Image.objects.all()
+	serializer_class = ImageSerializer
+
 def generator(request):
 	input_text = urllib.unquote(request.GET['text'])
 
