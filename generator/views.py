@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE, STDOUT
 import uuid
 import urllib
 
-from PIL import Image
+from PIL import Image as PILImage
 import numpy as np
 
 from django.conf import settings
@@ -12,18 +12,25 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework import viewsets, renderers, filters
 
-from generator.models import Image
-from generator.serializer import ImageSerializer
+from generator.models import Image, Design
+from generator.serializer import ImageSerializer, DesignSerializer
 from image_analysis.views import classify_discriminator, classify_fashion 
 from translator.views import translate, analysis_word2vec
 
 # Create your views here.
 class ImageViewSet(viewsets.ModelViewSet):
 	filter_backends = (filters.DjangoFilterBackend,)
-	filter_fields = ('id', 'text', 'gender', 'category', 'uid', 'history', 'filterd', 'like')
+	filter_fields = ('uid', 'text', 'gender', 'category')
 
 	queryset = Image.objects.all()
 	serializer_class = ImageSerializer
+
+class DesignViewSet(viewsets.ModelViewSet):
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_fields = ('uid', 'history', 'filterd', 'like')
+
+	queryset = Design.objects.all()
+	serializer_class = DesignSerializer
 
 def generator(request):
 	input_text = urllib.unquote(request.GET['text'])
@@ -125,6 +132,7 @@ def find_best_image(good_img_list, pred_fashion,
 				unique_count*settings.UNIQUE_WEIGHT / f_patch_count,
 				sexy_count*settings.SEXY_WEIGHT / f_patch_count
 				], dtype="float32")
+		pred_category /= sum(pred_category)
 
 		print "No.", i, "pred Gender:", pred_gender
 		print "No.", i, "pred Category:", pred_category
@@ -154,7 +162,7 @@ def euclidean(x, y):
 
 def crop_image_and_save(index, f_name):
 	generator_path = settings.GENERATOR_PATH
-	input_image = Image.open(generator_path + f_name)
+	input_image = PILImage.open(generator_path + f_name)
 
 	g_geometry = settings.G_GEOMETRY
 	y,x = divmod(index, settings.G_IMAGE[1])

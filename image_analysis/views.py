@@ -13,6 +13,7 @@ from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from generator.models import Image
 from image_analysis.data import generate_patches, img2numpy_arr
 
 # Create your views here.
@@ -41,7 +42,11 @@ def classify_fashion(image_fname):
 	return json.loads(pred_y[start_index:end_index])
 
 def search_neighbors(request):
-	image_list = os.listdir(settings.DESIGN_PATH)
+
+	images = Image.objects.all()
+	image_list = []
+	for image in images:
+		image_list.append(str(image.uid))
 
 	d_geometry = settings.D_GEOMETRY
 	designed_images = np.empty((len(image_list), d_geometry[0]*d_geometry[1]*3), dtype="float32")

@@ -14,6 +14,7 @@ function progress_off(step) {
 
 predGender = [];
 predCategory = [];
+imgHistory = "0";
 
 function StepOne() {
 	this.generatorPath = "/static/generator/"
@@ -46,10 +47,13 @@ StepOne.prototype.scatch = function(inputText) {
 			superResoluteNRImage(imagePath, function(response) {
 				var scatchImages = $("#step1_scatch_images");
 				scatchImages.append(
-					'<option data-img-label="'+textValue+
+					'<option data-img-label="' + textValue +
 					'"data-img-src="' + generatorPath + response.results + 
-					'" data-img-label="Test" value="'+textValue+
+					'" data-img-label="Test" value="' + textValue +
 					'" data-img-uid="' + response.results +
+					'" data-img-gender="' + predGender +
+					'" data-img-category="' + predCategory +
+					'" data-img-history="' + imgHistory+
 					'"></option>');	
 				scatchImages.imagepicker({
 					show_label: true,
@@ -58,10 +62,23 @@ StepOne.prototype.scatch = function(inputText) {
 						selectedText = imagePath;
 					}
 				});
-
 				$(".image_picker_selector img").width("50");
-				
 			});
+
+			imageHandler(
+					"",
+				"POST",
+				{
+					"gender" : predGender.toString(),
+					"category" : predCategory.toString(),
+					"text" : encodeURIComponent(textValue),
+					"uid" : imagePath,
+				},
+				function(response) {
+					image = response;
+				}
+			);
+
 		});
 	}
 }
@@ -116,10 +133,6 @@ StepTwo.prototype.next = function() {
 	});
 
 	var maxValue = Math.max.apply(null, predCategory);
-	if (maxValue < 0.6) {
-		maxValue += 0.2
-	}
-
 	var myChart = echarts.init(document.getElementById('analysis_raidor_chart'), theme);
 	myChart.setOption({
 	  tooltip: {

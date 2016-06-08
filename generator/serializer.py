@@ -1,9 +1,14 @@
-from generator.models import Image
+from generator.models import Image, Design
 from rest_framework import serializers
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = Image
-		fields = ('id', 'text', 'gender', 'category', 'uid', 'history', 'filterd', 'like')
+		fields = ('uid', 'text', 'gender', 'category')
+
+class DesignSerializer(serializers.HyperlinkedModelSerializer):
+	class Meta:
+		model = Design
+		fields = ('uid', 'history', 'filterd', 'like')
 
 		
