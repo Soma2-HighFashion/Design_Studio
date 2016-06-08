@@ -27,7 +27,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 
 class DesignViewSet(viewsets.ModelViewSet):
 	filter_backends = (filters.DjangoFilterBackend,)
-	filter_fields = ('uid', 'history', 'filterd', 'like')
+	filter_fields = ('uid', 'history_uid', 'history_text', 'filterd', 'like')
 
 	queryset = Design.objects.all()
 	serializer_class = DesignSerializer

@@ -152,7 +152,7 @@
   				  <div class="title_left">
   					<h3>
   					  Step 2.
-  					  <small>Edit Detail</small>
+  					  <small>Filter</small>
   					</h3>
   				  </div>
   				</div>
@@ -239,71 +239,36 @@
   				  <div class="title_left">
   					<h3>
   					  Step 3.
-  					  <small>Design</small>
+  					  <small>Design Detail</small>
   					</h3>
   				  </div>
   				</div>
 
-				<div class="col-md-4 col-sm-12 col-xs-12">
-				  <div class="x_panel" style="text-align: center;">
+				<div class="col-md-7">
+				  <div class="x_panel" style="text-align: center; height: 72vh;">
 					<div class="x_title">
-					  <h2>View Big Image</h2>
+					  <h2>Fashion History</h2>
 					  <div class="clearfix"></div>
 					</div>
-					<img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" height="256">
+
+					<div id="step3_history">
+					  <img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" height="128">
+					  <h3 style="display: inline;"> + </h3>
+					  <img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" height="128">
+					  <h3 style="display: inline;"> - </h3>
+					  <img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" height="128">    
+					</div>
+
+					</br>
+
+					<div id="step3_designed">
+					  <img id="step3_big_image" src="{% static 'images/picture2.jpg' %}" alt="Picture" height="256">
+				    </div>
+
 				  </div>
 				</div>
 
-				<div class="col-md-3 col-xs-12 widget widget_tally_box">
-				  <div class="x_panel fixed_height_390">
-					<div class="x_content">
-
-					  <div class="flex">
-					    <ul class="list-inline widget_profile_box">
-						  <li>
-							<a>
-							  <i class="fa fa-facebook"></i>
-							</a>
-						  </li>
-						  <li>
-						    <img id="step3_circle_image" src="{% static 'images/picture2.jpg' %}" class="img-circle profile_img" alt="Picture" width=100%; height=100%;>
-						  </li>
-						  <li>
-							<a>
-							  <i class="fa fa-twitter"></i>
-							</a>
-						  </li>
-						</ul>
-					  </div>
-
-					  <h3 class="name">Street Fashion</h3>
-
-					  <div class="flex">
-						<ul class="list-inline count2">
-						  <li>
-							<h3>123</h3>
-							<span>Articles</span>
-						  </li>
-						  <li>
-							<h3>1234</h3>
-							<span>Followers</span>
-						  </li>
-						  <li>
-							<h3>123</h3>
-							<span>Following</span>
-						  </li>
-						</ul>
-					  </div>
-						
-					  <p>
-						  If you've decided to go in development mode and tweak all of this a bit, there are few things you should do.
-					  </p>
-
-				  	</div>
-				  </div>
-				</div>
-
-  				<div class="col-md-5">
+				<div class="col-md-5">
 
   				  <div class="x_panel">
   					  <div class="x_title">
@@ -324,19 +289,8 @@
 						  </div>
 						</div>
 
-  					    <div id="analysis_raidor_chart" style="height:400px;"></div>
+  					    <div id="analysis_raidor_chart" style="height:500px;"></div>
   					  </div>
-  				  </div>
-
-  				</div>
-
-                <div class="col-md-12" style="height: 7vw;">
-
-  				  <div class="x_panel">
-  					<div class="x_title">
-  					  <h2>Text List</h2>
-  					  <div class="clearfix"></div>
-  				    </div>
   				  </div>
 
   				</div>

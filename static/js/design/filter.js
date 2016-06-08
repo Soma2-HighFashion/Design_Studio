@@ -12,20 +12,18 @@ filterBtnArr.forEach(function(btn, index) {
 		var preset = $(this).data('preset');
 		filterRender(preset);
 
-		imageHandler(
-			image.id, 
+		designHandler(
+			design.uid,
 			"PUT", 
 			{
-				"gender": image.gender,
-				"category": image.category,
-				"text": image.text,
-				"uid": image.uid,
-				"history": image.history,
+				"uid": design.uid,
+				"history_uid": design.history_uid,
+				"history_text": design.history_text,
 				"filterd": true,
-				"like": image.like
+				"like": design.like
 			},
 			function(response) {
-				image = response;
+				design = response;
 			}
 		);;
 	});

@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 @python_2_unicode_compatible
 class Image(models.Model):
-	uid = models.CharField(max_length=50)
+	uid = models.CharField(primary_key=True, max_length=50)
 	text = models.CharField(max_length=200)
 	gender = models.CharField(max_length=100)
 	category = models.CharField(max_length=150)
@@ -15,8 +15,9 @@ class Image(models.Model):
 		return '%s' % (self.text)
 
 class Design(models.Model):
-	uid = models.CharField(max_length=50)
-	history = models.CharField(max_length=100)
+	uid = models.CharField(primary_key=True, max_length=50)
+	history_uid = models.CharField(max_length=300)
+	history_text = models.CharField(max_length=100)
 	filterd = models.BooleanField()
 	like = models.IntegerField()
 

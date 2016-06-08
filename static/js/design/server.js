@@ -16,11 +16,18 @@ function searchNeighbors(params, uiCallBackFunc) {
 	commonAjaxFunction("search_neighbors?num=12&input=" + params, uiCallBackFunc);
 }
 
-function imageHandler(id, method, params, callBack) {
-	if (id != "") {
-		id = id + "/";
+function imageHandler(uid, method, params, callBack) {
+	if (uid != "") {
+		uid += "/";
 	}
-	ajaxCRUDFunction("api/image/"+id, method, params, callBack);
+	ajaxCRUDFunction("api/image/" + uid , method, params, callBack);
+}
+
+function designHandler(uid, method, params, callBack) {
+	if (uid != "") {
+		uid += "/";
+	}
+	ajaxCRUDFunction("api/design/" + uid, method, params, callBack);
 }
 
 function commonAjaxFunction(urlStr, callBack, callbackParam) {
@@ -71,8 +78,10 @@ var image = {
 }
 
 var design = {
+	"id": 0,
 	"uid": "",
-	"history": "",
+	"history_uid": "",
+	"history_text": "",
 	"filtered": false,
 	"like": 0
 }

@@ -15,6 +15,11 @@ function progress_off(step) {
 predGender = [];
 predCategory = [];
 imgHistory = "0";
+textHistory = "0";
+
+function splitUid(path) {
+	return path.split(".")[0];
+}
 
 function StepOne() {
 	this.generatorPath = "/static/generator/"
@@ -53,26 +58,29 @@ StepOne.prototype.scatch = function(inputText) {
 					'" data-img-uid="' + response.results +
 					'" data-img-gender="' + predGender +
 					'" data-img-category="' + predCategory +
-					'" data-img-history="' + imgHistory+
+					'" data-img-history="' + splitUid(response.results)+
 					'"></option>');	
 				scatchImages.imagepicker({
 					show_label: true,
 					clicked:function(){
 						imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
 						selectedText = imagePath;
+						imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
+						imgHistory = imageHistory;
+
 					}
 				});
 				$(".image_picker_selector img").width("50");
 			});
 
 			imageHandler(
-					"",
+				"",
 				"POST",
 				{
+					"uid" : splitUid(imagePath),
 					"gender" : predGender.toString(),
 					"category" : predCategory.toString(),
-					"text" : encodeURIComponent(textValue),
-					"uid" : imagePath,
+					"text" : encodeURIComponent(textValue)
 				},
 				function(response) {
 					image = response;
@@ -84,6 +92,25 @@ StepOne.prototype.scatch = function(inputText) {
 }
 
 StepOne.prototype.next = function() {
+
+	if (imgHistory == "0") {
+		imgHistory = splitUid(imagePath);
+	}
+
+	designHandler(
+		"",
+		"POST",
+		{
+			"uid": splitUid(imagePath),
+			"history_uid": imgHistory,
+			"history_text": encodeURIComponent(textHistory),
+			"filterd": false,
+			"like": 0
+		},
+		function(response) {
+			design = response;
+		}
+	);
 
 	var designedPath = this.designedPath
 	
@@ -185,10 +212,10 @@ StepThree.prototype.next = function() {
 			tagStr += '<div class="col-md-2">';
 			tagStr += '  <div class="thumbnail">';
 			tagStr += '    <div class="image view view-first">';
-			tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item + '" alt="image" />';
+			tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item.image + '" alt="image" />';
 			tagStr += '      <div class="mask">';
 			tagStr += '        <div class="tools tools-bottom">';
-			tagStr += '          <p>Your Text</p>';
+			tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
 			tagStr += '        </div>';
 			tagStr += '      </div>';
 			tagStr += '    </div>';
