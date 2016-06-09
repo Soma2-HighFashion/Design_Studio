@@ -81,27 +81,16 @@ $( document ).ready(function() {
 		}
 	});
 
-	// For Test
-//	Caman("#step2_image_canvas", "/static/images/picture2.jpg", function () {
-//		this.render();
-//	});
-
-	// Step 2. Edit Detail
-
 	var Step2 = new StepTwo();
-	//Step2.progress();
+	var Step3 = new StepThree(step4_ui);
 	
 	var step2_next_btn = $("#step2_next");
 	step2_next_btn.click(function(){
 		Step2.next();
+		Step3.desginDetail();
 
 		$.fn.fullpage.moveSectionDown();
 	});
-
-	// Step 3. Design -> Similar Fashions
-
-	var Step3 = new StepThree(step4_ui);
-	//Step3.progress();
 
 	var step3_next_btn = $("#step3_next");
 	step3_next_btn.click(function(){

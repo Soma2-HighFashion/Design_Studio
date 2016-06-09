@@ -56,10 +56,9 @@ def analysis_word2vec(input_text):
 	cla_score = 0; uni_score = 0
 	sexy_score = 0
 
-	gender_weight = 30
 	for word in clean_list:
-		f_score += w2v_model.similarity(word, female) * settings.GENDER_WEIGHT
-		m_score += w2v_model.similarity(word, male) * settings.GENDER_WEIGHT
+		f_score += (w2v_model.similarity(word, female) * settings.GENDER_WEIGHT)
+		m_score += (w2v_model.similarity(word, male) * settings.GENDER_WEIGHT)
 		
 		str_score += w2v_model.similarity(word, street) 
 		cas_score += w2v_model.similarity(word, casual) 
@@ -72,13 +71,12 @@ def analysis_word2vec(input_text):
 		str_score, cas_score, cla_score, uni_score, sexy_score
 	]
 
-	total_gender = sum(gender_list)
-	total_category = sum(category_list)
+	print(gender_list)
 
-	gender_list = map(lambda x: x/float(total_gender), gender_list)
-	category_list = map(lambda x: x/float(total_category), category_list)
-
-	return softmax(gender_list), category_list
+	gender_list = softmax(gender_list)
+	category_list = map(lambda x: x/float(sum(category_list)), category_list)
+	
+	return gender_list, category_list
 
 def text_to_word(text):
 	text = text.replace("-", "")

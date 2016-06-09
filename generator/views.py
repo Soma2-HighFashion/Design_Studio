@@ -123,8 +123,9 @@ def find_best_image(good_img_list, pred_fashion,
 			sexy_count += pred_fashion[j][4]
 
 		pred_gender = np.array([
-				female_count/f_patch_count, male_count / f_patch_count
+				female_count/f_patch_count, male_count/f_patch_count
 				], dtype="float32")
+
 		pred_category = np.array([
 				street_count*settings.STREET_WEIGHT / f_patch_count, 
 				casual_count*settings.CASUAL_WEIGHT / f_patch_count,
@@ -156,6 +157,9 @@ def find_best_image(good_img_list, pred_fashion,
 	best_image_category = map(lambda x: round(x, 3), list(best_image_category))
 
 	return best_image_index, best_image_gender, best_image_category
+
+def softmax(x):
+	return np.exp(x)/sum(np.exp(x))
 
 def euclidean(x, y):
 	return np.sqrt(np.sum((x-y)**2))
