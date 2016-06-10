@@ -52,15 +52,32 @@ def designs_contain_word(request):
 	
 	image_list = []
 	history_list = []
+	like_list = []
 	for design in designs:
 		image_list.append(str(design.uid) + ".png")
 		history_list.append(str(design.history_text))
+		like_list.append(int(design.like))
 
 	history_list = map(lambda x: urllib.unquote(x).decode('utf8'), history_list)
-	contain_list = filter(lambda x: word in x[1], zip(image_list, history_list))
-	contain_list = map(lambda x: {"image": x[0], "text": x[1]}, contain_list)
+	contain_list = filter(lambda x: word in x[1], zip(image_list, history_list, like_list))
+	contain_list = map(lambda x: {"image": x[0], "text": x[1], "like": x[2]}, contain_list)
 	return JsonResponse({
 		"results": contain_list
+	})
+
+def top10(request):
+	top10_list = []
+	designs = Design.objects.order_by('like').reverse()
+	for design in designs[:10]:
+		top10_list.append({
+			'image': design.uid,
+			'text': design.history_text,
+			'history': design.history_uid,
+			'filterd': design.filterd,
+			'like': design.like
+		});
+	return JsonResponse({
+		"results": top10_list
 	})
 
 def generator(request):

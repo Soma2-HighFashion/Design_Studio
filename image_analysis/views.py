@@ -46,9 +46,11 @@ def search_neighbors(request):
 
 	image_list = []
 	history_list = []
+	list_list = []
 	for design in designs:
 		image_list.append(str(design.uid) + ".png")
 		history_list.append(str(design.history_text))
+		list_list.append(int(design.like))
 
 	d_geometry = settings.D_GEOMETRY
 	designed_images = np.empty((len(image_list), d_geometry[0]*d_geometry[1]*3), dtype="float32")
@@ -67,7 +69,9 @@ def search_neighbors(request):
 
 	similar_images = []
 	for i in list(indices.reshape(-1)):
-		similar_images.append({ "image": image_list[i], "text": history_list[i] })
+		similar_images.append({ 
+				"image": image_list[i], "text": history_list[i], "like": list_list[i] 
+		})
 
 	return JsonResponse({
 		"results": similar_images

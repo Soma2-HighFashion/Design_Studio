@@ -320,7 +320,7 @@ function makeFashionGallery(response, target) {
 		tagStr += '      <div class="mask">';
 		tagStr += '        <div class="tools tools-bottom">';
 		tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
-		tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요</button>';
+		tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요 '+item.like+'</button>';
 		tagStr += '        </div>';
 		tagStr += '      </div>';
 		tagStr += '    </div>';
@@ -347,6 +347,8 @@ function makeFashionGallery(response, target) {
 				);
 			}
 		);
+		var like = Number($(this).text().substring(4,5));
+		$(this).text("좋아요 " + (like+1));
 		$(this).removeClass("btn-primary").addClass("btn-dark");
 		$(this).unbind();
 	});
