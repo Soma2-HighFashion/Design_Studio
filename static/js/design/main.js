@@ -3,15 +3,15 @@ selectedText = ""
 
 $( document ).ready(function() {
 	console.log( "ready!" );
-
-	$("#fullpage").fullpage({
+	
+	$("#fullpage_design").fullpage({
 		// Scrolling
 		'css3': true,
 		'scrollingSpeed': 700,
 
 		// Design
 		'verticalCentered': false,
-		'sectionsColor': ['#EEEDED', '#DCDCDC', '#EEEDED', '#DCDCDC'],
+		'sectionsColor': ['#EEEDED', '#DCDCDC', '#EEEDED', '#DCDCDC', '#EEEDED', '#DCDCDC'],
 
 		// Accessibility
 		keyboardScrolling: false,
@@ -27,13 +27,14 @@ $( document ).ready(function() {
 	$.fn.fullpage.setMouseWheelScrolling(false);
 	$.fn.fullpage.setAllowScrolling(false);
 
-	var nav = $("#design_nav");
 
+	var top10_ui = [$("#top10_progress"), $("#top10_container")];
+	var collection_ui = [$("#collection_progress"), $("#collection_container")];
 	var step1_ui = [$("#step1_progress"), $("#step1_container")];
 	var step2_ui = [$("#step2_progress"), $("#step2_container")];
 	var step3_ui = [$("#step3_progress"), $("#step3_container")];
 	var step4_ui = [$("#step4_progress"), $("#step4_container")];
-	var steps_ui = [step1_ui, step2_ui, step3_ui, step4_ui];
+	var steps_ui = [top10_ui, collection_ui, step1_ui, step2_ui, step3_ui, step4_ui];
 
 	for (var i = 0; i < steps_ui.length; i++) {
 		steps_ui[i][0].click(function(e){
@@ -43,14 +44,22 @@ $( document ).ready(function() {
 		});
 	}
 
-	// init
-	nav.click();
-	progress_on(step1_ui);
+	// Init
+	var gallery_nav = $("#gallery_nav");
+	var design_nav = $("#design_nav");
+
+	gallery_nav.click();
+	progress_on(top10_ui);
 
 	var scatchImages = $("#step1_scatch_images");
 	scatchImages.imagepicker({
 		show_label: true
 	});
+
+	// WordCloud
+	
+	var collection = new Collection();
+	collection.wordcloud();
 
 	// Step 1. Scatch
 	
@@ -98,6 +107,6 @@ $( document ).ready(function() {
 
 		$.fn.fullpage.moveSectionDown();
 	});
-
+	
 });
 

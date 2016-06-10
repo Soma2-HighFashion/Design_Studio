@@ -21,6 +21,23 @@ function splitUid(path) {
 	return path.split(".")[0];
 }
 
+function Collection() {
+	this.designedPath = "/static/designed/"
+}
+
+Collection.prototype.wordcloud = function() {	
+	getWords(function(response) {
+		var wordcloud = $("#wordcloud");
+		response.results.forEach(function(item, index) {
+			wordcloud.append('<button class="btn btn-round btn-default">' + item + '</button>');
+		});
+		wordcloud.children().click(function(e) {
+			var word = $(this).text();
+			containWordImages(word, makeFashionGallery, $("#collection-fashions"));
+		});
+	});
+}
+
 function StepOne() {
 	this.generatorPath = "/static/generator/"
 	this.designedPath = "/static/designed/"
@@ -287,51 +304,51 @@ StepThree.prototype.desginDetail = function() {
 }
 
 StepThree.prototype.next = function() {
-	searchNeighbors(selectedText, function(response) {
+	searchNeighbors(selectedText, makeFashionGallery, $("#similar-fashions"));
+}
 
-		var target = $("#similar-fashions");
-		target.text("");
+function makeFashionGallery(response, target) {
+	target.text("");
 
-		var tagStr = "";
-		var simImages = response.results;
-		simImages.forEach(function(item, index) {
-			tagStr += '<div class="col-md-2">';
-			tagStr += '  <div class="thumbnail">';
-			tagStr += '    <div class="image view view-first">';
-			tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item.image + '" alt="image" />';
-			tagStr += '      <div class="mask">';
-			tagStr += '        <div class="tools tools-bottom">';
-			tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
-			tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요</button>';
-			tagStr += '        </div>';
-			tagStr += '      </div>';
-			tagStr += '    </div>';
-			tagStr += '  </div>';
-			tagStr += '</div>';
-		});
-		target.html(tagStr);
+	var tagStr = "";
+	var simImages = response.results;
+	simImages.forEach(function(item, index) {
+		tagStr += '<div class="col-md-2">';
+		tagStr += '  <div class="thumbnail">';
+		tagStr += '    <div class="image view view-first">';
+		tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item.image + '" alt="image" />';
+		tagStr += '      <div class="mask">';
+		tagStr += '        <div class="tools tools-bottom">';
+		tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
+		tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요</button>';
+		tagStr += '        </div>';
+		tagStr += '      </div>';
+		tagStr += '    </div>';
+		tagStr += '  </div>';
+		tagStr += '</div>';
+	});
+	target.html(tagStr);
 
-		target.find('button').click(function(event){
-			var uid = $(this).data('img-uid');
-			designHandler(
-				uid,
-				"GET",
-				{},
-				function(response) {
-					response.like += 1;
-					designHandler(
-						uid,
-						"PUT",
-						response,
-						function(response) {
-							console.log("Success.");
-						}
-					);
-				}
-			);
-			$(this).removeClass("btn-primary").addClass("btn-dark");
-			$(this).unbind();
-		});
+	target.find('button').click(function(event){
+		var uid = $(this).data('img-uid');
+		designHandler(
+			uid,
+			"GET",
+			{},
+			function(response) {
+				response.like += 1;
+				designHandler(
+					uid,
+					"PUT",
+					response,
+					function(response) {
+						console.log("Success.");
+					}
+				);
+			}
+		);
+		$(this).removeClass("btn-primary").addClass("btn-dark");
+		$(this).unbind();
 	});
 }
 

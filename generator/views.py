@@ -34,14 +34,15 @@ class DesignViewSet(viewsets.ModelViewSet):
 
 def all_word(request):
 	return JsonResponse({
-		'results' : word_list()
+		'results' : map(lambda x: urllib.unquote(x).decode('utf8'), word_list())
 	})
 
 def word_list():
 	designs = Design.objects.all()
 	text_list = []
 	for design in designs:
-		text = str(design.history_text).replace('+',' ').replace('_',' ')
+		plus_urlencode = "%20%2B%20"; underbar_urlencode = "%20_%20"
+		text = str(design.history_text).replace(plus_urlencode,' ').replace(underbar_urlencode,' ')
 		text_list += text.split()
 	return list(set(text_list))
 
@@ -57,6 +58,7 @@ def designs_contain_word(request):
 
 	history_list = map(lambda x: urllib.unquote(x).decode('utf8'), history_list)
 	contain_list = filter(lambda x: word in x[1], zip(image_list, history_list))
+	contain_list = map(lambda x: {"image": x[0], "text": x[1]}, contain_list)
 	return JsonResponse({
 		"results": contain_list
 	})

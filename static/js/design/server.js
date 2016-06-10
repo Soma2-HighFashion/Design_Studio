@@ -12,8 +12,16 @@ function superResoluteNRImage(params, uiCallBackFunc) {
 	commonAjaxFunction("super_resolution_nr?input=" + params, uiCallBackFunc);
 }
 
-function searchNeighbors(params, uiCallBackFunc) {
-	commonAjaxFunction("search_neighbors?num=12&input=" + params, uiCallBackFunc);
+function searchNeighbors(params, uiCallBackFunc, uiCallBackParam) {
+	commonAjaxFunction("search_neighbors?num=12&input=" + params, uiCallBackFunc, uiCallBackParam);
+}
+
+function getWords(uiCallBackFunc) {
+	commonAjaxFunction("words", uiCallBackFunc);
+}
+
+function containWordImages(params, uiCallBackFunc, uiCallBackParam) {
+	commonAjaxFunction("designs_contain_word?word=" + params, uiCallBackFunc, uiCallBackParam);
 }
 
 function imageHandler(uid, method, params, callBack) {
