@@ -32,6 +32,35 @@ class DesignViewSet(viewsets.ModelViewSet):
 	queryset = Design.objects.all()
 	serializer_class = DesignSerializer
 
+def all_word(request):
+	return JsonResponse({
+		'results' : word_list()
+	})
+
+def word_list():
+	designs = Design.objects.all()
+	text_list = []
+	for design in designs:
+		text = str(design.history_text).replace('+',' ').replace('_',' ')
+		text_list += text.split()
+	return list(set(text_list))
+
+def designs_contain_word(request):
+	designs = Design.objects.all()
+	word = request.GET['word']
+	
+	image_list = []
+	history_list = []
+	for design in designs:
+		image_list.append(str(design.uid) + ".png")
+		history_list.append(str(design.history_text))
+
+	history_list = map(lambda x: urllib.unquote(x).decode('utf8'), history_list)
+	contain_list = filter(lambda x: word in x[1], zip(image_list, history_list))
+	return JsonResponse({
+		"results": contain_list
+	})
+
 def generator(request):
 	input_text = urllib.unquote(request.GET['text'])
 

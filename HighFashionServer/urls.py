@@ -20,7 +20,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
 from home.views import index, design
-from generator.views import generator, ImageViewSet, DesignViewSet
+from generator.views import generator, ImageViewSet, DesignViewSet, all_word, designs_contain_word
 from super_resolution.views import super_resolution_x2, super_resolution_nr
 from image_analysis.views import classify_fashion, classify_discriminator, search_neighbors
 	 
@@ -35,6 +35,8 @@ urlpatterns = [
 	url(r'^$', index, name='index'),
 	url(r'^design$', design, name='design'),
 	url(r'^generator$', generator, name='generator'),
+	url(r'^words$', all_word, name='all_word'),
+	url(r'^designs_contain_word$', designs_contain_word, name='designs_contain_word'),
 	url(r'^super_resolution_x2$', super_resolution_x2, name='super_resolution_x2'),
 	url(r'^super_resolution_nr$', super_resolution_nr, name='super_resolution_nr'),
 	url(r'^classify_discriminator$', classify_discriminator, name='classify_discriminator'),

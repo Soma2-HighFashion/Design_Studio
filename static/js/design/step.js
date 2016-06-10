@@ -67,7 +67,7 @@ StepOne.prototype.scatch = function(inputText) {
 						selectedText = imagePath;
 						imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
 						imgHistory = imageHistory;
-
+						textHistory = textValue;
 					}
 				});
 				$(".image_picker_selector img").width("50");
@@ -261,22 +261,29 @@ function StepThree(nextStep) {
 }
 
 StepThree.prototype.desginDetail = function() {
-	var separators = ['\\\+', '\\\_'];
-	var uids = imgHistory.split(new RegExp(separators.join('|'), 'g'));
-	var texts = textHistory.split(new RegExp(separators.join('|'), 'g'));
-	var arithmetics = imgHistory.match(new RegExp(separators.join('|'), 'g'));
 
+	var NOT_ARITHMETIC = 50;
 	var history = $("#step3_history");
-	for(var i=0; i<arithmetics.length; i++) {
-		history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
-		if (arithmetics[i] == '+') {
-			history.append('<li style="padding-top: 55px;"><h1> + </h1></li>');
-		} else {
-			history.append('<li style="padding-top: 55px;"><h1> - </h1></li>');
-		}
-	}
-	history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[arithmetics.length]+".png"+'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
 
+	if (imgHistory.length <= NOT_ARITHMETIC) {
+		history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+imgHistory+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(image.text)+'</p></div></li>');
+	} else {
+
+		var separators = ['\\\+', '\\\_'];
+		var uids = imgHistory.split(new RegExp(separators.join('|'), 'g'));
+		var texts = textHistory.split(new RegExp(separators.join('|'), 'g'));
+		var arithmetics = imgHistory.match(new RegExp(separators.join('|'), 'g'));
+
+		for(var i=0; i<arithmetics.length; i++) {
+			history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
+			if (arithmetics[i] == '+') {
+				history.append('<li style="padding-top: 55px;"><h1> + </h1></li>');
+			} else {
+				history.append('<li style="padding-top: 55px;"><h1> - </h1></li>');
+			}
+		}
+		history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[arithmetics.length]+".png"+'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
+	}
 }
 
 StepThree.prototype.next = function() {
@@ -295,6 +302,7 @@ StepThree.prototype.next = function() {
 			tagStr += '      <div class="mask">';
 			tagStr += '        <div class="tools tools-bottom">';
 			tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
+			tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요</button>';
 			tagStr += '        </div>';
 			tagStr += '      </div>';
 			tagStr += '    </div>';
@@ -302,6 +310,28 @@ StepThree.prototype.next = function() {
 			tagStr += '</div>';
 		});
 		target.html(tagStr);
+
+		target.find('button').click(function(event){
+			var uid = $(this).data('img-uid');
+			designHandler(
+				uid,
+				"GET",
+				{},
+				function(response) {
+					response.like += 1;
+					designHandler(
+						uid,
+						"PUT",
+						response,
+						function(response) {
+							console.log("Success.");
+						}
+					);
+				}
+			);
+			$(this).removeClass("btn-primary").addClass("btn-dark");
+			$(this).unbind();
+		});
 	});
 }
 
