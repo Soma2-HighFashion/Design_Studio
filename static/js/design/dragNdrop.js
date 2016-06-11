@@ -59,15 +59,27 @@ var step1MinusBtn = $("#step1_image_minus");
 step1MinusBtn.click(function(event) {
 
 	$(this).toggleClass('clicked');
-	
-	function dropMinus( event, ui ) {
-		var draggable = ui.draggable;
 
+	function dropPlus( event, ui ) {
+		var draggable = ui.draggable;
+		
 		$(this).hide("slow");
 		$(draggable).hide("slow");
-
+		
 		var dragText = $(draggable).find("p").text();
 		var dropText = $(this).find("p").text();
+		
+		var scatchImages = $("#step1_scatch_images");
+		var dragImageUid = scatchImages.find("option[value='" + dragText + "']").data('img-history');
+		var dropImageUid = scatchImages.find("option[value='" + dropText + "']").data('img-history');
+		
+		textValue = dragText + " - " + dropText;
+
+		textHistory = textValue;
+		imgHistory = dragImageUid + "_" + dropImageUid;
+
+		var Step1 = new StepOne();
+		Step1.arithmetic(textValue, imgHistory);
 
 		$("#step1_scatch_images").children().each(function(index) {
 			optionVal = $(this).val();
@@ -76,9 +88,6 @@ step1MinusBtn.click(function(event) {
 			}
 		});
 
-		textValue = dragText + " - " + dropText;
-		var Step1 = new StepOne();
-		Step1.scatch(textValue);
 
 		initButton();
 	}
@@ -93,8 +102,8 @@ step1MinusBtn.click(function(event) {
 	$(".image_picker_selector div").droppable( {
 		accept: '.image_picker_selector div',
 		hoverClass: 'hovered',
-		drop: dropMinus
-	});
+		drop: dropPlus
+	});;
 
 });
 

@@ -56,6 +56,11 @@ $( document ).ready(function() {
 		show_label: true
 	});
 
+	// Top10
+
+	var top10 = new Top10();
+	top10.getList();
+
 	// WordCloud
 	
 	var collection = new Collection();

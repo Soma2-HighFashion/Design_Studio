@@ -16,6 +16,10 @@ function searchNeighbors(params, uiCallBackFunc, uiCallBackParam) {
 	commonAjaxFunction("search_neighbors?num=12&input=" + params, uiCallBackFunc, uiCallBackParam);
 }
 
+function top10(uiCallBackFunc) {
+	commonAjaxFunction("top10", uiCallBackFunc);
+}
+
 function getWords(uiCallBackFunc) {
 	commonAjaxFunction("words", uiCallBackFunc);
 }

@@ -21,6 +21,45 @@ function splitUid(path) {
 	return path.split(".")[0];
 }
 
+function Top10() {
+	this.generatorPath = "/static/generator/"
+	this.designedPath = "/static/designed/"
+}
+
+Top10.prototype.getList = function() {
+
+	top10(function(response) {
+		var target = $("#top10_list");
+		var tagStr = "";
+
+		var results = response.results;
+		results.forEach(function(item, index) {
+			tagStr += '<div class="col-md-12">';
+			tagStr += '  <div class="x_panel" style="text-align: center; height: 350px;">';
+			tagStr += '    <div class="x_title">';
+			tagStr += '      <h2>Top '+(index+1)+'.';
+			tagStr += '        <small> Design by HighFashion </small>';
+			tagStr += '      </h2>';
+			tagStr += '      <div class="clearfix"></div>';
+			tagStr += '    </div>';
+			tagStr += '    <div id="top'+(index+1)+'_image"> </div>';
+			tagStr += '    <div class="col-md-10">';
+			tagStr += '      <ul id="top'+(index+1)+'_history" class="thumbnails image_picker_selector"> </ul>';
+			tagStr += '    </div>';
+			tagStr += '  </div>';
+			tagStr += '</div>';
+		});
+		target.html(tagStr);
+
+		results.forEach(function(item, index) {
+			var topN = "#top" + (index+1);
+			makeFashionHistory(item.history, decodeURIComponent(item.text), $(topN + "_history"));	
+			makeFashionGallery({ "results": [{"text": item.text, "image": item.image+".png", "like": item.like}] }, $(topN + "_image"));
+		});
+	});
+
+}
+
 function Collection() {
 	this.designedPath = "/static/designed/"
 }
@@ -278,41 +317,44 @@ function StepThree(nextStep) {
 }
 
 StepThree.prototype.desginDetail = function() {
-
-	var NOT_ARITHMETIC = 50;
-	var history = $("#step3_history");
-
-	if (imgHistory.length <= NOT_ARITHMETIC) {
-		history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+imgHistory+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(image.text)+'</p></div></li>');
-	} else {
-
-		var separators = ['\\\+', '\\\_'];
-		var uids = imgHistory.split(new RegExp(separators.join('|'), 'g'));
-		var texts = textHistory.split(new RegExp(separators.join('|'), 'g'));
-		var arithmetics = imgHistory.match(new RegExp(separators.join('|'), 'g'));
-
-		for(var i=0; i<arithmetics.length; i++) {
-			history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
-			if (arithmetics[i] == '+') {
-				history.append('<li style="padding-top: 55px;"><h1> + </h1></li>');
-			} else {
-				history.append('<li style="padding-top: 55px;"><h1> - </h1></li>');
-			}
-		}
-		history.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[arithmetics.length]+".png"+'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
-	}
+	makeFashionHistory(imgHistory, textHistory, $("#step3_history"));
 }
 
 StepThree.prototype.next = function() {
 	searchNeighbors(selectedText, makeFashionGallery, $("#similar-fashions"));
 }
 
+function makeFashionHistory(uidHistory, txtHistory, target) {
+	var NOT_ARITHMETIC = 50;
+	if (uidHistory.length <= NOT_ARITHMETIC) {
+		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+history+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(image.text)+'</p></div></li>');
+	} else {
+
+		var separators = ['\\\+', '\\\_'];
+		var uids = uidHistory.split(new RegExp(separators.join('|'), 'g'));
+		var texts = txtHistory.split(new RegExp(separators.join('|'), 'g'));
+		var arithmetics = uidHistory.match(new RegExp(separators.join('|'), 'g'));
+
+		for(var i=0; i<arithmetics.length; i++) {
+			target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
+			if (arithmetics[i] == '+') {
+				target.append('<li style="padding-top: 55px;"><h1> + </h1></li>');
+			} else {
+				target.append('<li style="padding-top: 55px;"><h1> - </h1></li>');
+			}
+		}
+		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[arithmetics.length]+".png"+'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
+	}
+
+}
+
 function makeFashionGallery(response, target) {
 	target.text("");
 
 	var tagStr = "";
-	var simImages = response.results;
-	simImages.forEach(function(item, index) {
+	var results = response.results;
+
+	results.forEach(function(item, index) {
 		tagStr += '<div class="col-md-2">';
 		tagStr += '  <div class="thumbnail">';
 		tagStr += '    <div class="image view view-first">';
