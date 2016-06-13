@@ -10,6 +10,7 @@ import numpy as np
 from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse
+from generator.forms import UploadFileForm
 from rest_framework import viewsets, renderers, filters
 
 from generator.models import Image, Design
@@ -65,6 +66,13 @@ def designs_contain_word(request):
 		"results": contain_list
 	})
 
+def test(request):
+	form = UploadFileForm(request.POST, request.FILES)
+	filtered_image = False
+	if form.is_valid():
+		filtered_image = request.FILES['file']
+	return JsonResponse({"results": filtered_image}) 
+
 def top10(request):
 	top10_list = []
 	designs = Design.objects.order_by('like').reverse()
@@ -81,6 +89,7 @@ def top10(request):
 	})
 
 def generator(request):
+	is_arithmetic = request.GET['arithmetic']
 	input_text = urllib.unquote(request.GET['text'])
 
 	os.chdir(settings.DCGAN_PATH)
@@ -101,7 +110,10 @@ def generator(request):
 		translated_text = ""
 		best_index, gender, category = find_best_image(good_img_list, pred_fashion)
 	else:
-		translated_text = translate(input_text)
+		if (is_arithmetic):
+			translated_text = input_text
+		else:
+			translated_text = translate(input_text)
 		best_index, gender, category = find_best_image(
 				good_img_list, pred_fashion, analysis_word2vec(translated_text))
 

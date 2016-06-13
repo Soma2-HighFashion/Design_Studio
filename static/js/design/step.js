@@ -99,51 +99,53 @@ StepOne.prototype.scatch = function(inputText) {
 	} else if (inputTextArr.includes(textValue)) {
 		alert("Duplicate Text!");
 	} else {
-		generateImage(textValue, function(response) {
-			inputTextArr.push(textValue);
-			imagePath = response.results;
-			predGender = response.gender;
-			predCategory = response.category;
+		generateImage(
+			{"text": textValue, "arithmetic": false},
+			function(response) {
+				inputTextArr.push(textValue);
+				imagePath = response.results;
+				predGender = response.gender;
+				predCategory = response.category;
 
-			superResoluteNRImage(imagePath, function(response) {
-				var scatchImages = $("#step1_scatch_images");
-				scatchImages.append(
-					'<option data-img-label="' + textValue +
-					'"data-img-src="' + generatorPath + response.results + 
-					'" data-img-label="Test" value="' + textValue +
-					'" data-img-uid="' + response.results +
-					'" data-img-gender="' + predGender +
-					'" data-img-category="' + predCategory +
-					'" data-img-history="' + splitUid(response.results)+
-					'"></option>');	
-				scatchImages.imagepicker({
-					show_label: true,
-					clicked:function(){
-						imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
-						selectedText = imagePath;
-						imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
-						imgHistory = imageHistory;
-						textHistory = textValue;
-					}
+				superResoluteNRImage(imagePath, function(response) {
+					var scatchImages = $("#step1_scatch_images");
+					scatchImages.append(
+						'<option data-img-label="' + textValue +
+						'"data-img-src="' + generatorPath + response.results + 
+						'" data-img-label="Test" value="' + textValue +
+						'" data-img-uid="' + response.results +
+						'" data-img-gender="' + predGender +
+						'" data-img-category="' + predCategory +
+						'" data-img-history="' + splitUid(response.results)+
+						'"></option>');	
+					scatchImages.imagepicker({
+						show_label: true,
+						clicked:function(){
+							imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
+							selectedText = imagePath;
+							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
+							imgHistory = imageHistory;
+							textHistory = textValue;
+						}
+					});
+					$(".image_picker_selector img").width("50");
 				});
-				$(".image_picker_selector img").width("50");
+
+				imageHandler(
+					"",
+					"POST",
+					{
+						"uid" : splitUid(imagePath),
+						"gender" : predGender.toString(),
+						"category" : predCategory.toString(),
+						"text" : encodeURIComponent(textValue)
+					},
+					function(response) {
+						image = response;
+					}
+				);
+
 			});
-
-			imageHandler(
-				"",
-				"POST",
-				{
-					"uid" : splitUid(imagePath),
-					"gender" : predGender.toString(),
-					"category" : predCategory.toString(),
-					"text" : encodeURIComponent(textValue)
-				},
-				function(response) {
-					image = response;
-				}
-			);
-
-		});
 	}
 }
 
@@ -164,52 +166,54 @@ StepOne.prototype.arithmetic = function(inputText, inputImgHistory) {
 	} else if (inputTextArr.includes(textValue)) {
 		alert("Duplicate Text!");
 	} else {
-		generateImage(textValue, function(response) {
-			inputTextArr.push(textValue);
-			imagePath = response.results;
-			predGender = response.gender;
-			predCategory = response.category;
+		generateImage(
+			{"text": textValue, "arithmetic": true}, 
+			function(response) {
+				inputTextArr.push(textValue);
+				imagePath = response.results;
+				predGender = response.gender;
+				predCategory = response.category;
 
-			superResoluteNRImage(imagePath, function(response) {
-				var scatchImages = $("#step1_scatch_images");
-				scatchImages.append(
-					'<option data-img-label="' + textValue +
-					'"data-img-src="' + generatorPath + response.results + 
-					'" data-img-label="Test" value="' + textValue +
-					'" data-img-uid="' + response.results +
-					'" data-img-gender="' + predGender +
-					'" data-img-category="' + predCategory +
-					'" data-img-history="' + inputImgHistory+
-					'"></option>');	
-				scatchImages.imagepicker({
-					show_label: true,
-					clicked:function(){
-						imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
-						selectedText = imagePath;
-						imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
-						imgHistory = imageHistory;
-						textHistory = textValue;
+				superResoluteNRImage(imagePath, function(response) {
+					var scatchImages = $("#step1_scatch_images");
+					scatchImages.append(
+						'<option data-img-label="' + textValue +
+						'"data-img-src="' + generatorPath + response.results + 
+						'" data-img-label="Test" value="' + textValue +
+						'" data-img-uid="' + response.results +
+						'" data-img-gender="' + predGender +
+						'" data-img-category="' + predCategory +
+						'" data-img-history="' + inputImgHistory+
+						'"></option>');	
+					scatchImages.imagepicker({
+						show_label: true,
+						clicked:function(){
+							imagePath = $(this).find("option[value='" + $(this).val() + "']").data('img-uid');
+							selectedText = imagePath;
+							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
+							imgHistory = imageHistory;
+							textHistory = textValue;
 
-					}
+						}
+					});
+					$(".image_picker_selector img").width("50");
 				});
-				$(".image_picker_selector img").width("50");
+
+				imageHandler(
+					"",
+					"POST",
+					{
+						"uid" : splitUid(imagePath),
+						"gender" : predGender.toString(),
+						"category" : predCategory.toString(),
+						"text" : encodeURIComponent(textValue)
+					},
+					function(response) {
+						image = response;
+					}
+				);
+
 			});
-
-			imageHandler(
-				"",
-				"POST",
-				{
-					"uid" : splitUid(imagePath),
-					"gender" : predGender.toString(),
-					"category" : predCategory.toString(),
-					"text" : encodeURIComponent(textValue)
-				},
-				function(response) {
-					image = response;
-				}
-			);
-
-		});
 	}
 }
 
@@ -251,6 +255,33 @@ StepTwo.prototype.progress = function() {
 }
 
 StepTwo.prototype.next = function() {
+
+	designHandler(
+		design.uid,
+		"PUT", 
+		design,
+		function(response) {
+			design = response;
+		}
+	);
+
+//	$(function() {
+//		console.log(new FormData($('#upload_form')));
+//		$('#upload_form').submit(function(event) {
+//			e.preventDefault();
+//			var data = new FormData($('#upload_form'));
+//			$.ajax({
+//				url: "/test",
+//				method: "POST",
+//				data: data,
+//				success: function(data){ console.log(data); },
+//				error: function(data){ alert(data); },
+//				processData: false,
+//				contentType: false,
+//			});
+//		});
+//	});
+
 	var designedPath = this.designedPath
 	
 	var big_image = $("#step3_big_image");
@@ -327,13 +358,14 @@ StepThree.prototype.next = function() {
 function makeFashionHistory(uidHistory, txtHistory, target) {
 	var NOT_ARITHMETIC = 50;
 	if (uidHistory.length <= NOT_ARITHMETIC) {
-		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+history+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(image.text)+'</p></div></li>');
+		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uidHistory+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(txtHistory)+'</p></div></li>');
 	} else {
 
-		var separators = ['\\\+', '\\\_'];
-		var uids = uidHistory.split(new RegExp(separators.join('|'), 'g'));
-		var texts = txtHistory.split(new RegExp(separators.join('|'), 'g'));
-		var arithmetics = uidHistory.match(new RegExp(separators.join('|'), 'g'));
+		var uidSeparators = ['\\\+', '\\\_'];
+		var textSeparators = ['\\\+', '\\\-'];
+		var uids = uidHistory.split(new RegExp(uidSeparators.join('|'), 'g'));
+		var texts = txtHistory.split(new RegExp(textSeparators.join('|'), 'g'));
+		var arithmetics = uidHistory.match(new RegExp(uidSeparators.join('|'), 'g'));
 
 		for(var i=0; i<arithmetics.length; i++) {
 			target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');

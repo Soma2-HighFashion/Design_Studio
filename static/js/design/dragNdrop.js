@@ -3,6 +3,8 @@ function initButton() {
 	$("#step1_image_minus").removeClass('clicked');
 }
 
+var step1ImagePicker = "#step1_container .image_picker_selector";
+
 var step1PlusBtn = $("#step1_image_plus");
 step1PlusBtn.click(function(event) {
 
@@ -40,15 +42,15 @@ step1PlusBtn.click(function(event) {
 		initButton();
 	}
 
-	$(".image_picker_selector div").draggable( {
+	$(step1ImagePicker + " div").draggable( {
 		cursor: 'move',
-		containment: '.image_picker_selector',
-		stack: '.image_picker_selector div',
+		containment: step1ImagePicker,
+		stack: step1ImagePicker + ' div',
 		revert: true
 	});
 	
-	$(".image_picker_selector div").droppable( {
-		accept: '.image_picker_selector div',
+	$(step1ImagePicker + " div").droppable( {
+		accept: step1ImagePicker + ' div',
 		hoverClass: 'hovered',
 		drop: dropPlus
 	});
@@ -60,7 +62,7 @@ step1MinusBtn.click(function(event) {
 
 	$(this).toggleClass('clicked');
 
-	function dropPlus( event, ui ) {
+	function dropMinus( event, ui ) {
 		var draggable = ui.draggable;
 		
 		$(this).hide("slow");
@@ -92,17 +94,17 @@ step1MinusBtn.click(function(event) {
 		initButton();
 	}
 
-	$(".image_picker_selector div").draggable( {
+	$(step1ImagePicker + ' div').draggable( {
 		cursor: 'move',
-		containment: '.image_picker_selector',
-		stack: '.image_picker_selector div',
+		containment: step1ImagePicker,
+		stack: step1ImagePicker + ' div',
 		revert: true
 	});
 	
-	$(".image_picker_selector div").droppable( {
-		accept: '.image_picker_selector div',
+	$(step1ImagePicker + ' div').droppable( {
+		accept: step1ImagePicker + ' div',
 		hoverClass: 'hovered',
-		drop: dropPlus
+		drop: dropMinus
 	});;
 
 });

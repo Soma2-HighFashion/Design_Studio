@@ -1,7 +1,7 @@
 ctxPath = "" 
 
 function generateImage(params, uiCallBackFunc) {
-	scatchAjaxFunction("generator?text=" + params, uiCallBackFunc);
+	scatchAjaxFunction("generator", params, uiCallBackFunc);
 }
 
 function superResoluteX2Image(params, uiCallBackFunc) {
@@ -82,13 +82,14 @@ function ajaxCRUDFunction(urlStr, method, params, callBack) {
 
 }
 
-function scatchAjaxFunction(urlStr, callBack, callbackParam) {
+function scatchAjaxFunction(urlStr, params, callBack, callbackParam) {
 
 	var callUrl = ctxPath + urlStr;
 
 	$.ajax({
 		type : "GET",
 		url : callUrl,
+		data: params,
 		contentType : 'application/json',
 		beforeSend : function() {
 			$("#loading_background").fadeIn("slow");
@@ -112,6 +113,8 @@ var image = {
 	"category": "",
 	"text": "",
 }
+
+var filteredImage = "";
 
 var design = {
 	"id": 0,

@@ -90,6 +90,7 @@ $( document ).ready(function() {
 			Step1.next();
 
 			$.fn.fullpage.moveSectionDown();
+			$(this).unbind();
 		} else {
 			alert("Scatch & Select!");
 		}
@@ -104,6 +105,7 @@ $( document ).ready(function() {
 		Step3.desginDetail();
 
 		$.fn.fullpage.moveSectionDown();
+		$(this).unbind();
 	});
 
 	var step3_next_btn = $("#step3_next");
@@ -111,6 +113,7 @@ $( document ).ready(function() {
 		Step3.next();
 
 		$.fn.fullpage.moveSectionDown();
+		$(this).unbind();
 	});
 	
 });

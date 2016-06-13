@@ -16,8 +16,8 @@ class Image(models.Model):
 
 class Design(models.Model):
 	uid = models.CharField(primary_key=True, max_length=50)
-	history_uid = models.CharField(max_length=300)
-	history_text = models.CharField(max_length=100)
+	history_uid = models.CharField(max_length=500)
+	history_text = models.CharField(max_length=300)
 	filterd = models.BooleanField()
 	like = models.IntegerField()
 

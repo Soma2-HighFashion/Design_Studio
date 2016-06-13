@@ -11,21 +11,6 @@ filterBtnArr.forEach(function(btn, index) {
 	btn.click(function() {
 		var preset = $(this).data('preset');
 		filterRender(preset);
-
-		designHandler(
-			design.uid,
-			"PUT", 
-			{
-				"uid": design.uid,
-				"history_uid": design.history_uid,
-				"history_text": design.history_text,
-				"filterd": true,
-				"like": design.like
-			},
-			function(response) {
-				design = response;
-			}
-		);;
 	});
 });
 
@@ -34,5 +19,12 @@ function filterRender(preset) {
 		this.revert();
 		this[preset]();
 		this.render();
+
+		if (preset == "revert") {
+			design.filterd = false;
+		} else {
+			design.filterd = true;
+		}
+		filteredImage = this.toBase64();
 	});
 }

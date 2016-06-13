@@ -281,6 +281,12 @@
 					  </div>
 					</div>
 
+					<form method="POST" name="upload_form" id="upload_form" enctype="multipart/form-data" style="display: none;">
+					  {% csrf_token %}
+					  <input name="file" type="file" id="upload_img"/>
+					  <input id="upload_submit" type="submit"/>
+					</form>
+
   				  </div>
   				</div>
   				<!-- /image cropping -->
