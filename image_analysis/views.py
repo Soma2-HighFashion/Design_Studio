@@ -17,6 +17,19 @@ from generator.models import Design
 from image_analysis.data import generate_patches, img2numpy_arr
 
 # Create your views here.
+def test(request):
+	os.chdir(settings.IMAGE_ANALYSIS_PATH)
+
+	image_fname = "f630cb90-fcce-4263-8339-0da7f6fd7250.png"
+	cmd = ("python test_discriminate.py --t " + settings.GENERATOR_PATH + image_fname)
+	classify_image = Popen(cmd, shell=True, stdin=PIPE, 
+							stdout=PIPE, stderr=STDOUT, close_fds=True)
+	pred_y = classify_image.stdout.read()
+	
+	start_index = pred_y.index('[[')
+	end_index = pred_y.index(']]') + 2
+	return JsonResponse({"results": pred_y[start_index:end_index]})
+
 def classify_discriminator(image_fname):
 	os.chdir(settings.IMAGE_ANALYSIS_PATH)
 

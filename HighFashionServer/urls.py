@@ -23,7 +23,7 @@ from home.views import index, design
 from generator.views import generator, ImageViewSet, DesignViewSet, top10, all_word, designs_contain_word
 from super_resolution.views import super_resolution_x2, super_resolution_nr
 from image_analysis.views import classify_fashion, classify_discriminator, search_neighbors
-	 
+
 router = routers.DefaultRouter()
 router.register(r'image', ImageViewSet)
 router.register(r'design', DesignViewSet)

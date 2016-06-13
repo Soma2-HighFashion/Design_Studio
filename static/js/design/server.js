@@ -1,7 +1,7 @@
 ctxPath = "" 
 
 function generateImage(params, uiCallBackFunc) {
-	commonAjaxFunction("generator?text=" + params, uiCallBackFunc);
+	scatchAjaxFunction("generator?text=" + params, uiCallBackFunc);
 }
 
 function superResoluteX2Image(params, uiCallBackFunc) {
@@ -81,6 +81,30 @@ function ajaxCRUDFunction(urlStr, method, params, callBack) {
 	});
 
 }
+
+function scatchAjaxFunction(urlStr, callBack, callbackParam) {
+
+	var callUrl = ctxPath + urlStr;
+
+	$.ajax({
+		type : "GET",
+		url : callUrl,
+		contentType : 'application/json',
+		beforeSend : function() {
+			$("#loading_background").fadeIn("slow");
+		},
+		success : function(response) {
+			callBack(response, callbackParam);
+		},
+		error : function(request, status, error) {
+			//console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			alert("오류가 발생하였습니다. 다시 시도해주세요.");	
+		},
+	}).complete(function() {
+		$("#loading_background").fadeOut("slow"); 
+	});
+}
+
 
 var image = {
 	"uid": "",

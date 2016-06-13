@@ -116,7 +116,7 @@ def generator(request):
 
 def generate_random_image(image_uid):
 	cmd = ("gpu=0 noise=normal name="+image_uid+ " batchSize=" + str(settings.G_COUNT) +
-			" net=checkpoints/fashionG_18_net_G.t7 th generate.lua")
+			" net=checkpoints/fashionG_18_net_G.t7 " + settings.TORCH_PATH + "th generate.lua")
 	generate_image = Popen(cmd, shell=True, stdin=PIPE, 
 							stdout=PIPE, stderr=STDOUT, close_fds=True)
 	return os.path.basename(generate_image.stdout.read()).strip()
