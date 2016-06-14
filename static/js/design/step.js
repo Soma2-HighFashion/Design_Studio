@@ -17,7 +17,8 @@ predCategory = [];
 textHistory = "0";
 
 function splitUid(path) {
-	return path.split(".")[0];
+	var separators = ['\\\+', '\\\_', '\\\.'];
+	return path.split(new RegExp(separators.join('|'), 'g'))[0];
 }
 
 function Top10() {
@@ -401,7 +402,7 @@ function makeFashionGallery(response, targets) {
 	});
 
 	target.find('button').click(function(event){
-		var uid = $(this).data('img-uid');
+		var uid = splitUid($(this).data('img-uid'));
 		designHandler(
 			uid,
 			"GET",
