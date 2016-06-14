@@ -46,8 +46,8 @@ def word_list():
 	designs = Design.objects.all()
 	text_list = []
 	for design in designs:
-		plus_urlencode = "%20%2B%20"; underbar_urlencode = "%20_%20"
-		text = str(design.history_text).replace(plus_urlencode,' ').replace(underbar_urlencode,' ')
+		plus_urlencode = "%20%2B%20"; minus_urlencode = "%20-%20"
+		text = str(design.history_text).replace(plus_urlencode,' ').replace(minus_urlencode,' ')
 		text_list += text.split()
 	return list(set(text_list))
 
@@ -70,13 +70,6 @@ def designs_contain_word(request):
 	return JsonResponse({
 		"results": designed_list
 	})
-
-def test(request):
-	form = UploadFileForm(request.POST, request.FILES)
-	filtered_image = False
-	if form.is_valid():
-		filtered_image = request.FILES['file']
-	return JsonResponse({"results": filtered_image}) 
 
 def top10(request):
 	top10_list = []
