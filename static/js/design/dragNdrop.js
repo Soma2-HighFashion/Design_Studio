@@ -23,10 +23,14 @@ step1PlusBtn.click(function(event) {
 		var dragImageUid = scatchImages.find("option[value='" + dragText + "']").data('img-history');
 		var dropImageUid = scatchImages.find("option[value='" + dropText + "']").data('img-history');
 		
-		textValue = dragText + " + " + dropText;
+		textValue = dropText + " + " + dragText;
 
 		textHistory = textValue;
-		imgHistory = dragImageUid + "+" + dropImageUid;
+		imgHistory = dropImageUid + "+" + dragImageUid;
+
+		arithmeticDTO.drop = dropImageUid;
+		arithmeticDTO.drag = dragImageUid;
+		arithmeticDTO.equation = "plus";
 
 		var Step1 = new StepOne();
 		Step1.arithmetic(textValue, imgHistory);
@@ -75,10 +79,14 @@ step1MinusBtn.click(function(event) {
 		var dragImageUid = scatchImages.find("option[value='" + dragText + "']").data('img-history');
 		var dropImageUid = scatchImages.find("option[value='" + dropText + "']").data('img-history');
 		
-		textValue = dragText + " - " + dropText;
+		textValue = dropText + " - " + dragText;
 
 		textHistory = textValue;
-		imgHistory = dragImageUid + "_" + dropImageUid;
+		imgHistory = dropImageUid + "_" + dragImageUid;
+		
+		arithmeticDTO.drop = dropImageUid;
+		arithmeticDTO.drag = dragImageUid;
+		arithmeticDTO.equation = "minus";
 
 		var Step1 = new StepOne();
 		Step1.arithmetic(textValue, imgHistory);
@@ -89,7 +97,6 @@ step1MinusBtn.click(function(event) {
 				$(this).remove();
 			}
 		});
-
 
 		initButton();
 	}

@@ -20,7 +20,7 @@ function filterRenderAndSave(preset) {
 		this[preset]();
 		this.render();
 
-		design.filtered = preset;
+		designDTO.filtered = preset;
 	});
 }
 

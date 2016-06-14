@@ -60,7 +60,7 @@ Top10.prototype.getList = function() {
 					"like": item.like,
 					"filtered": item.filtered
 				}] 
-				}, $(topN + "_image"));
+				}, [$(topN + "_image"), "_top"]);
 		});
 	});
 
@@ -78,7 +78,7 @@ Collection.prototype.wordcloud = function() {
 		});
 		wordcloud.children().click(function(e) {
 			var word = $(this).text();
-			containWordImages(word, makeFashionGallery, $("#collection-fashions"));
+			containWordImages(word, makeFashionGallery, [$("#collection-fashions"), "_col"]);
 		});
 	});
 }
@@ -106,7 +106,7 @@ StepOne.prototype.scatch = function(inputText) {
 		alert("Duplicate Text!");
 	} else {
 		generateImage(
-			{"text": textValue, "arithmetic": false},
+			{"text": textValue},
 			function(response) {
 				inputTextArr.push(textValue);
 				imagePath = response.results;
@@ -131,9 +131,9 @@ StepOne.prototype.scatch = function(inputText) {
 							selectedText = imagePath;
 							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
 							imgHistory = imageHistory;
-							design.history_uid = imageHistory;
+							designDTO.history_uid = imageHistory;
 							textHistory = textValue;
-							design.history_text = textValue;
+							designDTO.history_text = textValue;
 						}
 					});
 					$(".image_picker_selector img").width("50");
@@ -149,7 +149,7 @@ StepOne.prototype.scatch = function(inputText) {
 						"text" : encodeURIComponent(textValue)
 					},
 					function(response) {
-						image = response;
+						imageDTO = response;
 					}
 				);
 
@@ -174,8 +174,8 @@ StepOne.prototype.arithmetic = function(inputText, inputImgHistory) {
 	} else if (inputTextArr.includes(textValue)) {
 		alert("Duplicate Text!");
 	} else {
-		generateImage(
-			{"text": textValue, "arithmetic": true}, 
+		arithmeticImage(
+			arithmeticDTO,
 			function(response) {
 				inputTextArr.push(textValue);
 				imagePath = response.results;
@@ -200,29 +200,15 @@ StepOne.prototype.arithmetic = function(inputText, inputImgHistory) {
 							selectedText = imagePath;
 							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
 							imgHistory = imageHistory;
-							design.history_uid = imageHistory;
+							designDTO.history_uid = imageHistory;
 							textHistory = textValue;
-							design.history_text = textValue;
+							designDTO.history_text = textValue;
 
 						}
 					});
 					$(".image_picker_selector img").width("50");
 				});
-
-				imageHandler(
-					"",
-					"POST",
-					{
-						"uid" : splitUid(imagePath),
-						"gender" : predGender.toString(),
-						"category" : predCategory.toString(),
-						"text" : encodeURIComponent(textValue)
-					},
-					function(response) {
-						image = response;
-					}
-				);
-
+				
 			});
 	}
 }
@@ -236,13 +222,13 @@ StepOne.prototype.next = function() {
 		"POST",
 		{
 			"uid": splitUid(imagePath),
-			"history_uid": design.history_uid,
-			"history_text": encodeURIComponent(design.history_text),
+			"history_uid": designDTO.history_uid,
+			"history_text": encodeURIComponent(designDTO.history_text),
 			"filterd": false,
 			"like": 0
 		},
 		function(response) {
-			design = response;
+			designDTO = response;
 		}
 	);
 
@@ -267,11 +253,11 @@ StepTwo.prototype.progress = function() {
 StepTwo.prototype.next = function() {
 
 	designHandler(
-		design.uid,
+		designDTO.uid,
 		"PUT", 
-		design,
+		designDTO,
 		function(response) {
-			design = response;
+			designDTO = response;
 		}
 	);
 
@@ -288,7 +274,7 @@ StepThree.prototype.desginDetail = function() {
 	var big_image = $("#step3_big_image");
 	big_image.attr('src', designedPath + selectedText);
 
-	filterRender("#step3_filtered_image", designedPath + selectedText, design.filtered);
+	filterRender("#step3_filtered_image", designedPath + selectedText, designDTO.filtered);
 
 	ratio = 100;
 
@@ -342,13 +328,13 @@ StepThree.prototype.desginDetail = function() {
 	  }]
 	});
 
-	makeFashionHistory(design.history_uid, 
-						decodeURIComponent(design.history_text), 
+	makeFashionHistory(designDTO.history_uid, 
+						decodeURIComponent(designDTO.history_text), 
 						$("#step3_history"));
 }
 
 StepThree.prototype.next = function() {
-	searchNeighbors(selectedText, makeFashionGallery, $("#similar-fashions"));
+	searchNeighbors(selectedText, makeFashionGallery, [$("#similar-fashions"), "_sim"]);
 }
 
 function makeFashionHistory(uidHistory, txtHistory, target) {
@@ -381,14 +367,16 @@ function makeFashionHistory(uidHistory, txtHistory, target) {
 
 }
 
-function makeFashionGallery(response, target) {
+function makeFashionGallery(response, targets) {
+	var target = targets[0];
+	var from = targets[1];
 	target.text("");
 
 	var tagStr = "";
 	var results = response.results;
 
 	results.forEach(function(item, index) {
-		var uid = splitUid(item.image);
+		var uid = splitUid(item.image) + from;
 		tagStr += '<div class="col-md-2">';
 		tagStr += '  <div class="thumbnail">';
 		tagStr += '    <div class="image view view-first">';
@@ -406,10 +394,9 @@ function makeFashionGallery(response, target) {
 	target.html(tagStr);
 
 	results.forEach(function(item, index) {
-		var image = response.results[0].image;
-		var uid = splitUid(item.image);
+		var image = item.image;
 		var filter = item.filtered;
-		console.log(filter);
+		var uid = splitUid(item.image) + from;
 		filterRender("#designed_image_"+uid, "/static/designed/" + image, filter);
 	});
 

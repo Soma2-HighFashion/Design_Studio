@@ -1,5 +1,9 @@
 ctxPath = "" 
 
+function arithmeticImage(params, uiCallBackFunc) {
+	scatchAjaxFunction("arithmetic", params, uiCallBackFunc);
+}
+
 function generateImage(params, uiCallBackFunc) {
 	scatchAjaxFunction("generator", params, uiCallBackFunc);
 }
@@ -104,18 +108,24 @@ function scatchAjaxFunction(urlStr, params, callBack, callbackParam) {
 }
 
 
-var image = {
+var imageDTO = {
 	"uid": "",
 	"gender": "",
 	"category": "",
 	"text": "",
 }
 
-var design = {
+var designDTO = {
 	"id": 0,
 	"uid": "",
 	"history_uid": "0",
 	"history_text": "0",
 	"filtered": "revert",
 	"like": 0
+}
+
+var arithmeticDTO = {
+	"drop": "",
+	"drag": "",
+	"equation": ""
 }

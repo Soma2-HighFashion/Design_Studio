@@ -17,19 +17,6 @@ from generator.models import Design
 from image_analysis.data import generate_patches, img2numpy_arr
 
 # Create your views here.
-def test(request):
-	os.chdir(settings.IMAGE_ANALYSIS_PATH)
-
-	image_fname = "f630cb90-fcce-4263-8339-0da7f6fd7250.png"
-	cmd = ("python test_discriminate.py --t " + settings.GENERATOR_PATH + image_fname)
-	classify_image = Popen(cmd, shell=True, stdin=PIPE, 
-							stdout=PIPE, stderr=STDOUT, close_fds=True)
-	pred_y = classify_image.stdout.read()
-	
-	start_index = pred_y.index('[[')
-	end_index = pred_y.index(']]') + 2
-	return JsonResponse({"results": pred_y[start_index:end_index]})
-
 def classify_discriminator(image_fname):
 	os.chdir(settings.IMAGE_ANALYSIS_PATH)
 
@@ -42,13 +29,15 @@ def classify_discriminator(image_fname):
 	end_index = pred_y.index(']]') + 2
 	return json.loads(pred_y[start_index:end_index])
 
-def classify_fashion(image_fname):
+def classify_fashion(image_fname, image_count):
 	os.chdir(settings.IMAGE_ANALYSIS_PATH)
 
-	cmd = ("python test_analysis.py --t "+ settings.GENERATOR_PATH + image_fname)
+	cmd = ("python test_analysis.py --t "+ settings.GENERATOR_PATH + image_fname + " --i " +
+			image_count)
 	classify_image = Popen(cmd, shell=True, stdin=PIPE, 
 							stdout=PIPE, stderr=STDOUT, close_fds=True)
 	pred_y = classify_image.stdout.read()
+	print(pred_y)
 
 	start_index = pred_y.index("[[")
 	end_index = pred_y.index("]]") + 2
@@ -58,12 +47,8 @@ def search_neighbors(request):
 	designs = Design.objects.all()
 
 	image_list = []
-	history_list = []
-	list_list = []
 	for design in designs:
 		image_list.append(str(design.uid) + ".png")
-		history_list.append(str(design.history_text))
-		list_list.append(int(design.like))
 
 	d_geometry = settings.D_GEOMETRY
 	designed_images = np.empty((len(image_list), d_geometry[0]*d_geometry[1]*3), dtype="float32")
@@ -83,7 +68,10 @@ def search_neighbors(request):
 	similar_images = []
 	for i in list(indices.reshape(-1)):
 		similar_images.append({ 
-				"image": image_list[i], "text": history_list[i], "like": list_list[i] 
+			"image": str(designs[i].uid) + ".png", 
+			"text": str(designs[i].history_text), 
+			"like": int(designs[i].like),
+			"filtered": str(designs[i].filtered)
 		})
 
 	return JsonResponse({

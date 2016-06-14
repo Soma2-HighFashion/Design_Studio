@@ -55,19 +55,20 @@ def designs_contain_word(request):
 	designs = Design.objects.all()
 	word = request.GET['word']
 	
-	image_list = []
-	history_list = []
-	like_list = []
+	designed_list = []
 	for design in designs:
-		image_list.append(str(design.uid) + ".png")
-		history_list.append(str(design.history_text))
-		like_list.append(int(design.like))
+		designed_list.append( (
+			str(design.uid) + ".png",
+			urllib.unquote(str(design.history_text)).decode('utf8'),
+			int(design.like),
+			str(design.filtered)
+		) )
 
-	history_list = map(lambda x: urllib.unquote(x).decode('utf8'), history_list)
-	contain_list = filter(lambda x: word in x[1], zip(image_list, history_list, like_list))
-	contain_list = map(lambda x: {"image": x[0], "text": x[1], "like": x[2]}, contain_list)
+	designed_list = filter(lambda x: word in x[1], designed_list)
+	designed_list = map(lambda x: {"image": x[0], "text": x[1], "like": x[2], "filtered": x[3]},
+						designed_list)
 	return JsonResponse({
-		"results": contain_list
+		"results": designed_list
 	})
 
 def test(request):
@@ -92,11 +93,39 @@ def top10(request):
 		"results": top10_list
 	})
 
+def arithmetic(request):
+	equation = request.GET['equation']
+	drop = request.GET['drop']
+	drag = request.GET['drag']
+	
+	f_name = generate_arithmetic_image(equation, drop, drag)
+	image_count = "1,1"
+	pred_fashion = classify_fashion(f_name, image_count)
+
+	pred_gender, pred_category = fashion_summary(0, pred_fashion)
+
+	pred_gender = map(lambda x: round(x, 3), list(pred_gender))
+	pred_category = map(lambda x: round(x, 3), list(pred_category))
+
+	return JsonResponse({
+		'results' : f_name,
+		'gender' : list(pred_gender),
+		'category' : list(pred_category)
+	})
+
+def generate_arithmetic_image(equation, drop, drag):
+	os.chdir(settings.DCGAN_PATH)
+	image_uid = str(uuid.uuid4())
+	cmd = ("gpu=0 drop=" + drop + " drag=" + drag + 
+			" arithmetic=" + equation + " name=" + image_uid + 
+			" net=checkpoints/fashionG_18_net_G.t7 " + settings.TORCH_PATH + "th generate.lua")
+	generate_image = Popen(cmd, shell=True, stdin=PIPE, 
+							stdout=PIPE, stderr=STDOUT, close_fds=True)
+	return os.path.basename(generate_image.stdout.read()).strip()
+
 def generator(request):
-	is_arithmetic = json.loads(request.GET['arithmetic'])
 	input_text = request.GET['text']
 
-	os.chdir(settings.DCGAN_PATH)
 	image_uid = str(uuid.uuid4())
 
 	# Generate Random Image
@@ -107,30 +136,26 @@ def generator(request):
 	good_img_list = classify_good_generated(pred_y)
 	
 	#  Find Best Image with Word2Vec  - Gender and Category
-
-	pred_fashion = classify_fashion(f_name)
+	image_count = "5,6"
+	pred_fashion = classify_fashion(f_name, image_count)
 	
 	if settings.DEBUG:
 		translated_text = ""
 		best_index, gender, category = find_best_image(good_img_list, pred_fashion)
 	else:
-		if (is_arithmetic):
-			translated_text = urllib.unquote(input_text)
-			print("arithmetic")
+		if Language.objects.filter(ko=input_text).exists():
+			print("exist")
+			translated_text = str(Language.objects.filter(ko=input_text)[0].en)
 		else:
-			if Language.objects.filter(ko=input_text).exists():
-				print("exist")
-				translated_text = str(Language.objects.filter(ko=input_text)[0].en)
-			else:
-				print("no exist")
-				translated_text = translate(urllib.unquote(input_text))
-				if translated_text != "Random":
-					Language(ko=input_text, en=translated_text).save()
+			print("no exist")
+			translated_text = translate(urllib.unquote(input_text))
+			if translated_text != "Random":
+				Language(ko=input_text, en=translated_text).save()
 		best_index, gender, category = find_best_image(
 				good_img_list, pred_fashion, analysis_word2vec(translated_text))
 
 	# Crop Best Image
-	crop_image_and_save(best_index, f_name)
+	crop_image_and_save(best_index, image_uid)
 
 	return JsonResponse({
 		'results' : f_name,
@@ -139,6 +164,7 @@ def generator(request):
 	})
 
 def generate_random_image(image_uid):
+	os.chdir(settings.DCGAN_PATH)
 	cmd = ("gpu=0 noise=normal name="+image_uid+ " batchSize=" + str(settings.G_COUNT) +
 			" net=checkpoints/fashionG_18_net_G.t7 " + settings.TORCH_PATH + "th generate.lua")
 	generate_image = Popen(cmd, shell=True, stdin=PIPE, 
@@ -173,40 +199,14 @@ def find_best_image(good_img_list, pred_fashion,
 	if max(category_classifier) > settings.CATEGORY_THRESHOLD:
 		is_category_focused = True
 
-	f_patch_count = settings.F_PATCH_COUNT
 	best_image_index = 0
 	best_image_gender = 0
 	best_image_category = 0
 	best_diff = 1000
 
 	for i in good_img_list:
-		female_count = 0; male_count = 0;
-		street_count = 0; casual_count = 0; classic_count = 0; 
-		unique_count = 0; sexy_count = 0;
 
-		for j in range(i*f_patch_count, (i+1)*f_patch_count):
-			female_count += sum(pred_fashion[j][0:5])
-			male_count += sum(pred_fashion[j][5:])
-
-			street_count += (pred_fashion[j][0] + pred_fashion[j][5])
-			casual_count += (pred_fashion[j][1] + pred_fashion[j][6])
-			classic_count += (pred_fashion[j][2] + pred_fashion[j][7])
-			unique_count += (pred_fashion[j][3] + pred_fashion[j][8])
-			sexy_count += pred_fashion[j][4]
-
-		pred_gender = np.array([
-				female_count/f_patch_count, male_count/f_patch_count
-				], dtype="float32")
-
-		pred_category = np.array([
-				street_count*settings.STREET_WEIGHT / f_patch_count, 
-				casual_count*settings.CASUAL_WEIGHT / f_patch_count,
-				classic_count*settings.CLASSIC_WEIGHT / f_patch_count, 
-				unique_count*settings.UNIQUE_WEIGHT / f_patch_count,
-				sexy_count*settings.SEXY_WEIGHT / f_patch_count
-				], dtype="float32")
-		pred_category /= sum(pred_category)
-
+		pred_gender, pred_category = fashion_summary(i, pred_fashion)
 		print "No.", i, "pred Gender:", pred_gender
 		print "No.", i, "pred Category:", pred_category
 
@@ -230,16 +230,48 @@ def find_best_image(good_img_list, pred_fashion,
 
 	return best_image_index, best_image_gender, best_image_category
 
+def fashion_summary(i, pred_fashion):
+	f_patch_count = settings.F_PATCH_COUNT
+	female_count = 0; male_count = 0;
+	street_count = 0; casual_count = 0; classic_count = 0; 
+	unique_count = 0; sexy_count = 0;
+
+	for j in range(i*f_patch_count, (i+1)*f_patch_count):
+		female_count += sum(pred_fashion[j][0:5])
+		male_count += sum(pred_fashion[j][5:])
+
+		street_count += (pred_fashion[j][0] + pred_fashion[j][5])
+		casual_count += (pred_fashion[j][1] + pred_fashion[j][6])
+		classic_count += (pred_fashion[j][2] + pred_fashion[j][7])
+		unique_count += (pred_fashion[j][3] + pred_fashion[j][8])
+		sexy_count += pred_fashion[j][4]
+
+	pred_gender = np.array([
+			female_count/f_patch_count, male_count/f_patch_count
+			], dtype="float32")
+
+	pred_category = np.array([
+			street_count*settings.STREET_WEIGHT / f_patch_count, 
+			casual_count*settings.CASUAL_WEIGHT / f_patch_count,
+			classic_count*settings.CLASSIC_WEIGHT / f_patch_count, 
+			unique_count*settings.UNIQUE_WEIGHT / f_patch_count,
+			sexy_count*settings.SEXY_WEIGHT / f_patch_count
+			], dtype="float32")
+	pred_category /= sum(pred_category)
+	return pred_gender, pred_category
+
 def softmax(x):
 	return np.exp(x)/sum(np.exp(x))
 
 def euclidean(x, y):
 	return np.sqrt(np.sum((x-y)**2))
 
-def crop_image_and_save(index, f_name):
+def crop_image_and_save(index, image_uid):
 	generator_path = settings.GENERATOR_PATH
+	f_name = image_uid + ".png"
 	input_image = PILImage.open(generator_path + f_name)
 
+	# For Image file
 	g_geometry = settings.G_GEOMETRY
 	y,x = divmod(index, settings.G_IMAGE[1])
 	left = x * g_geometry[1]
@@ -248,3 +280,11 @@ def crop_image_and_save(index, f_name):
 	bottom = (y+1) * g_geometry[0]
 
 	best_image = input_image.crop((left, top, right, bottom)).save(generator_path+f_name)
+
+	# For Binary file
+	os.chdir(settings.DCGAN_PATH)
+	cmd = ("uid=" + image_uid + " bestIndex=" + str(index) + " " + settings.TORCH_PATH + "th selectBest.lua")
+	selectBest = Popen(cmd, shell=True, stdin=PIPE, 
+							stdout=PIPE, stderr=STDOUT, close_fds=True)
+	print(selectBest.stdout.read())
+	
