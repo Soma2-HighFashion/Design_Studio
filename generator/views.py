@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import os
 import time
 from subprocess import Popen, PIPE, STDOUT
 import uuid
 import urllib
+import json
 
 from PIL import Image as PILImage
 import numpy as np
@@ -14,6 +17,7 @@ from generator.forms import UploadFileForm
 from rest_framework import viewsets, renderers, filters
 
 from generator.models import Image, Design
+from translator.models import Language
 from generator.serializer import ImageSerializer, DesignSerializer
 from image_analysis.views import classify_discriminator, classify_fashion 
 from translator.views import translate, analysis_word2vec
@@ -28,7 +32,7 @@ class ImageViewSet(viewsets.ModelViewSet):
 
 class DesignViewSet(viewsets.ModelViewSet):
 	filter_backends = (filters.DjangoFilterBackend,)
-	filter_fields = ('uid', 'history_uid', 'history_text', 'filterd', 'like')
+	filter_fields = ('uid', 'history_uid', 'history_text', 'filtered', 'like')
 
 	queryset = Design.objects.all()
 	serializer_class = DesignSerializer
@@ -79,9 +83,9 @@ def top10(request):
 	for design in designs[:10]:
 		top10_list.append({
 			'image': design.uid,
-			'text': design.history_text,
+			'text': urllib.unquote(str(design.history_text)),
 			'history': design.history_uid,
-			'filterd': design.filterd,
+			'filtered': design.filtered,
 			'like': design.like
 		});
 	return JsonResponse({
@@ -89,8 +93,8 @@ def top10(request):
 	})
 
 def generator(request):
-	is_arithmetic = request.GET['arithmetic']
-	input_text = urllib.unquote(request.GET['text'])
+	is_arithmetic = json.loads(request.GET['arithmetic'])
+	input_text = request.GET['text']
 
 	os.chdir(settings.DCGAN_PATH)
 	image_uid = str(uuid.uuid4())
@@ -111,9 +115,17 @@ def generator(request):
 		best_index, gender, category = find_best_image(good_img_list, pred_fashion)
 	else:
 		if (is_arithmetic):
-			translated_text = input_text
+			translated_text = urllib.unquote(input_text)
+			print("arithmetic")
 		else:
-			translated_text = translate(input_text)
+			if Language.objects.filter(ko=input_text).exists():
+				print("exist")
+				translated_text = str(Language.objects.filter(ko=input_text)[0].en)
+			else:
+				print("no exist")
+				translated_text = translate(urllib.unquote(input_text))
+				if translated_text != "Random":
+					Language(ko=input_text, en=translated_text).save()
 		best_index, gender, category = find_best_image(
 				good_img_list, pred_fashion, analysis_word2vec(translated_text))
 

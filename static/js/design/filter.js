@@ -10,21 +10,23 @@ var filterBtnArr = [
 filterBtnArr.forEach(function(btn, index) {
 	btn.click(function() {
 		var preset = $(this).data('preset');
-		filterRender(preset);
+		filterRenderAndSave(preset);
 	});
 });
 
-function filterRender(preset) {
+function filterRenderAndSave(preset) {
 	Caman(canvas_id, function () {
 		this.revert();
 		this[preset]();
 		this.render();
 
-		if (preset == "revert") {
-			design.filterd = false;
-		} else {
-			design.filterd = true;
-		}
-		filteredImage = this.toBase64();
+		design.filtered = preset;
+	});
+}
+
+function filterRender(target, image, preset) {
+	Caman(target, image, function () {
+		this[preset]();
+		this.render();
 	});
 }

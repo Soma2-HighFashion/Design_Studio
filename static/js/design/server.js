@@ -55,7 +55,6 @@ function commonAjaxFunction(urlStr, callBack, callbackParam) {
 			callBack(response, callbackParam);
 		},
 		error : function(request, status, error) {
-			//console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			alert("오류가 발생하였습니다. 다시 시도해주세요.");	
 		},
 
@@ -74,7 +73,6 @@ function ajaxCRUDFunction(urlStr, method, params, callBack) {
 			callBack(response);
 		},
 		error : function(request, status, error) {
-			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			alert("오류가 발생하였습니다. 다시 시도해주세요..");	
 		},
 
@@ -98,7 +96,6 @@ function scatchAjaxFunction(urlStr, params, callBack, callbackParam) {
 			callBack(response, callbackParam);
 		},
 		error : function(request, status, error) {
-			//console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			alert("오류가 발생하였습니다. 다시 시도해주세요.");	
 		},
 	}).complete(function() {
@@ -114,13 +111,11 @@ var image = {
 	"text": "",
 }
 
-var filteredImage = "";
-
 var design = {
 	"id": 0,
 	"uid": "",
-	"history_uid": "",
-	"history_text": "",
-	"filtered": false,
+	"history_uid": "0",
+	"history_text": "0",
+	"filtered": "revert",
 	"like": 0
 }

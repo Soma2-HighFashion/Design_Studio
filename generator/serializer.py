@@ -9,6 +9,6 @@ class ImageSerializer(serializers.HyperlinkedModelSerializer):
 class DesignSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = Design
-		fields = ('uid', 'history_uid', 'history_text', 'filterd', 'like')
+		fields = ('uid', 'history_uid', 'history_text', 'filtered', 'like')
 
 		

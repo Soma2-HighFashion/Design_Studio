@@ -27,9 +27,8 @@ def translate(input_text):
 		'text': input_text.encode('utf-8')
 	}
 	
-	r = requests.post(naver_api, data=params, headers=headers)
-
 	try:
+		r = requests.post(naver_api, data=params, headers=headers)
 		translated_text = r.json()['message']['result']['translatedText']
 	except:
 		translated_text = "Random"
@@ -70,8 +69,6 @@ def analysis_word2vec(input_text):
 	category_list = [
 		str_score, cas_score, cla_score, uni_score, sexy_score
 	]
-
-	print(gender_list)
 
 	gender_list = softmax(gender_list)
 	category_list = map(lambda x: x/float(sum(category_list)), category_list)

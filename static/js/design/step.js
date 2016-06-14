@@ -14,7 +14,6 @@ function progress_off(step) {
 
 predGender = [];
 predCategory = [];
-imgHistory = "0";
 textHistory = "0";
 
 function splitUid(path) {
@@ -53,8 +52,15 @@ Top10.prototype.getList = function() {
 
 		results.forEach(function(item, index) {
 			var topN = "#top" + (index+1);
-			makeFashionHistory(item.history, decodeURIComponent(item.text), $(topN + "_history"));	
-			makeFashionGallery({ "results": [{"text": item.text, "image": item.image+".png", "like": item.like}] }, $(topN + "_image"));
+			makeFashionHistory(item.history, item.text, $(topN + "_history"));	
+			makeFashionGallery({ 
+				"results": [{
+					"text": item.text, 
+					"image": item.image+".png", 
+					"like": item.like,
+					"filtered": item.filtered
+				}] 
+				}, $(topN + "_image"));
 		});
 	});
 
@@ -125,7 +131,9 @@ StepOne.prototype.scatch = function(inputText) {
 							selectedText = imagePath;
 							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
 							imgHistory = imageHistory;
+							design.history_uid = imageHistory;
 							textHistory = textValue;
+							design.history_text = textValue;
 						}
 					});
 					$(".image_picker_selector img").width("50");
@@ -192,7 +200,9 @@ StepOne.prototype.arithmetic = function(inputText, inputImgHistory) {
 							selectedText = imagePath;
 							imageHistory = $(this).find("option[value='" + $(this).val() + "']").data('img-history');
 							imgHistory = imageHistory;
+							design.history_uid = imageHistory;
 							textHistory = textValue;
+							design.history_text = textValue;
 
 						}
 					});
@@ -226,8 +236,8 @@ StepOne.prototype.next = function() {
 		"POST",
 		{
 			"uid": splitUid(imagePath),
-			"history_uid": imgHistory,
-			"history_text": encodeURIComponent(textHistory),
+			"history_uid": design.history_uid,
+			"history_text": encodeURIComponent(design.history_text),
 			"filterd": false,
 			"like": 0
 		},
@@ -265,30 +275,20 @@ StepTwo.prototype.next = function() {
 		}
 	);
 
-//	$(function() {
-//		console.log(new FormData($('#upload_form')));
-//		$('#upload_form').submit(function(event) {
-//			e.preventDefault();
-//			var data = new FormData($('#upload_form'));
-//			$.ajax({
-//				url: "/test",
-//				method: "POST",
-//				data: data,
-//				success: function(data){ console.log(data); },
-//				error: function(data){ alert(data); },
-//				processData: false,
-//				contentType: false,
-//			});
-//		});
-//	});
+	}
 
-	var designedPath = this.designedPath
+function StepThree(nextStep) {
+
+}
+
+StepThree.prototype.desginDetail = function() {
+
+	var designedPath = "/static/designed/";
 	
 	var big_image = $("#step3_big_image");
 	big_image.attr('src', designedPath + selectedText);
 
-	var circle_image = $("#step3_circle_image");
-	circle_image.attr('src', designedPath + selectedText);
+	filterRender("#step3_filtered_image", designedPath + selectedText, design.filtered);
 
 	ratio = 100;
 
@@ -341,14 +341,10 @@ StepTwo.prototype.next = function() {
 		]
 	  }]
 	});
-}
 
-function StepThree(nextStep) {
-
-}
-
-StepThree.prototype.desginDetail = function() {
-	makeFashionHistory(imgHistory, textHistory, $("#step3_history"));
+	makeFashionHistory(design.history_uid, 
+						decodeURIComponent(design.history_text), 
+						$("#step3_history"));
 }
 
 StepThree.prototype.next = function() {
@@ -357,8 +353,11 @@ StepThree.prototype.next = function() {
 
 function makeFashionHistory(uidHistory, txtHistory, target) {
 	var NOT_ARITHMETIC = 50;
+	var liThumnailTag = '<li><div class="thumbnail"><img class="image_picker_image"';
+
 	if (uidHistory.length <= NOT_ARITHMETIC) {
-		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uidHistory+".png"+'" alt="Picture" height="128"><p>'+decodeURIComponent(txtHistory)+'</p></div></li>');
+		target.append(liThumnailTag + ' src="static/generator/'+uidHistory+".png" + 
+						'" alt="Picture" height="128"><p>'+txtHistory+'</p></div></li>');
 	} else {
 
 		var uidSeparators = ['\\\+', '\\\_'];
@@ -368,14 +367,16 @@ function makeFashionHistory(uidHistory, txtHistory, target) {
 		var arithmetics = uidHistory.match(new RegExp(uidSeparators.join('|'), 'g'));
 
 		for(var i=0; i<arithmetics.length; i++) {
-			target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[i]+".png"+'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
+			target.append(liThumnailTag + ' src="static/generator/'+uids[i]+".png" + 
+							'" alt="Picture" height="128"><p>'+texts[i]+'</p></div></li>');
 			if (arithmetics[i] == '+') {
 				target.append('<li style="padding-top: 55px;"><h1> + </h1></li>');
 			} else {
 				target.append('<li style="padding-top: 55px;"><h1> - </h1></li>');
 			}
 		}
-		target.append('<li><div class="thumbnail"><img class="image_picker_image" src="static/generator/'+uids[arithmetics.length]+".png"+'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
+		target.append(liThumnailTag + ' src="static/generator/'+uids[arithmetics.length]+".png" + 
+						'" alt="Picture" height="128"><p>'+texts[arithmetics.length]+'</p></div></li>');
 	}
 
 }
@@ -387,14 +388,15 @@ function makeFashionGallery(response, target) {
 	var results = response.results;
 
 	results.forEach(function(item, index) {
+		var uid = splitUid(item.image);
 		tagStr += '<div class="col-md-2">';
 		tagStr += '  <div class="thumbnail">';
 		tagStr += '    <div class="image view view-first">';
-		tagStr += '      <img style="display: block; margin: 0 auto;" src="static/designed/' + item.image + '" alt="image" />';
+		tagStr += '      <canvas id="designed_image_'+ uid +'" style="display: block; margin: 0 auto;"></canvas>';
 		tagStr += '      <div class="mask">';
 		tagStr += '        <div class="tools tools-bottom">';
 		tagStr += '          <p>'+ decodeURIComponent(item.text) +'</p>';
-		tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+splitUid(item.image)+'">좋아요 '+item.like+'</button>';
+		tagStr += '          <button class="btn btn-round btn-primary" data-img-uid="'+ uid +'">좋아요 '+item.like+'</button>';
 		tagStr += '        </div>';
 		tagStr += '      </div>';
 		tagStr += '    </div>';
@@ -402,6 +404,14 @@ function makeFashionGallery(response, target) {
 		tagStr += '</div>';
 	});
 	target.html(tagStr);
+
+	results.forEach(function(item, index) {
+		var image = response.results[0].image;
+		var uid = splitUid(item.image);
+		var filter = item.filtered;
+		console.log(filter);
+		filterRender("#designed_image_"+uid, "/static/designed/" + image, filter);
+	});
 
 	target.find('button').click(function(event){
 		var uid = $(this).data('img-uid');
