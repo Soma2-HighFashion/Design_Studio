@@ -100,7 +100,7 @@ function scatchAjaxFunction(urlStr, params, callBack, callbackParam) {
 			callBack(response, callbackParam);
 		},
 		error : function(request, status, error) {
-			alert("오류가 발생하였습니다. 다시 시도해주세요.");	
+			alert("입력하신 단어를 분석할 수 없습니다. 조금 더 일반적인 단어를 사용해주세요.");	
 		},
 	}).complete(function() {
 		$("#loading_background").fadeOut("slow"); 

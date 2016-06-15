@@ -419,7 +419,8 @@ function makeFashionGallery(response, targets) {
 				);
 			}
 		);
-		var like = Number($(this).text().substring(4,5));
+		var likeText = $(this).text();
+		var like = Number(likeText.substring(4, likeText.length));
 		$(this).text("좋아요 " + (like+1));
 		$(this).removeClass("btn-primary").addClass("btn-dark");
 		$(this).unbind();

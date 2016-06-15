@@ -48,8 +48,9 @@ $( document ).ready(function() {
 	var gallery_nav = $("#gallery_nav");
 	var design_nav = $("#design_nav");
 
-	gallery_nav.click();
-	progress_on(top10_ui);
+	design_nav.click();
+	progress_on(step1_ui);
+	$.fn.fullpage.moveTo(3);
 
 	var scatchImages = $("#step1_scatch_images");
 	scatchImages.imagepicker({
