@@ -7,6 +7,7 @@
 - Python 2.7
 - Django 1.9
 - Django REST framework 3.3
+- MySQL 5.5
 
 ### Front-end
 
@@ -19,18 +20,20 @@
 
 [HighFashion](http://highfashion.pro/)
 
-## Gallery
+## Component
 
-### Top 10.
+### Gallery
+
+#### Top 10.
 
 사용자들을 통해서 만든 Fashion Image 들이 전시.
 좋아요를 많이 받은 순서대로 10개의 Image만.
 
-### Collection
+####  Collection
 
 각 단어들을 통해서 만든 패션이미지들을 조회.
 
-## Design Step
+### Design Step
 
 1. **Scatch** 
 	- [DCGAN(Deep Convolutional Generative Adversarial Networks)](https://github.com/Soma2-HighFashion/Word2Image/tree/master/dcgan)
