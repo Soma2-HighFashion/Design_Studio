@@ -73,7 +73,6 @@ $( document ).ready(function() {
 
 	var step1_input = $("#step1_input_text");
 	step1_input.keypress(function(e) {
-		e.preventDefault();
 		if (e.which == 13) {
 			// Enter
 			Step1.scatch();
