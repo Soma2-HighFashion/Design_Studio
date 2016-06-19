@@ -24,7 +24,7 @@ def super_resolution_nr(request):
 
 	input_image_uid = str(request.GET['input'])
 
-	cmd = (settings.TORCH_PATH + "th waifu2x.lua -m noise -noise_level 2" +
+	cmd = (settings.TORCH_PATH + "th waifu2x.lua -model_dir models/photo -m noise -noise_level 2" +
 			" -i " + settings.GENERATOR_PATH + input_image_uid + 
 			" -o " + settings.GENERATOR_PATH + input_image_uid )
 	gerenate_image = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
